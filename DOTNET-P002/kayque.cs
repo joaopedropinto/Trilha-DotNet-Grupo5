@@ -5,8 +5,8 @@ public static class Kayque{
       public static string Name => "Kayque Piton";
       public static List<(string, int)> Skills => new List<(string, int)>{
             ("Fundamentos de C#", 4),
-            ("Habilidades Gerais de Desenvolvimento",3) ,
-            ("Fundamentos de Banco de Dados", 3),
+            ("Habilidades Gerais de Desenvolvimento",4) ,
+            ("Fundamentos de Banco de Dados", 4),
             ("Fundamentos basicos de ASP.NET Core", 2),
             ("ORM", 2),
             ("Injeção de Dependencia", 1),
@@ -17,7 +17,7 @@ public static class Kayque{
             ("Comunicação em tempo real", 1),
             ("Mapeamento de Objeto", 1),
             ("Marcação de tarefas", 1),
-            ("Testagem", 1),
+            ("Testagem", 2),
             ("Micro-Serviços", 1),
             ("CI/CD", 1),
             ("Design e Arquitetura de software", 2),
