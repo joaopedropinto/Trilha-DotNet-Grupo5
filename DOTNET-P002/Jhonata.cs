@@ -1,11 +1,16 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
-namespace DOTNET_P002.WebAPI;
-public static class Jhonata{
-      public static string Name => "Jhonata Araújo";
-      public static List<(string, int)> Skills => new List<(string, int)>{
+namespace DOTNET_P002
+{
+    public static class Jhonata
+    {
+        public static string Name => "Jhonata Araújo";
+        public static List<(string, int)> Skills => new List<(string, int)>{
             ("Fundamentos de C#", 4),
-            ("Habilidades Gerais de Desenvolvimento",3) ,
+            ("Habilidades Gerais de Desenvolvimento", 3) ,
             ("Fundamentos de Banco de Dados", 3),
             ("Fundamentos basicos de ASP.NET Core", 2),
             ("ORM", 2),
@@ -24,18 +29,22 @@ public static class Jhonata{
             ("Bibliotecas de cliente", 2),
             ("Engine de template", 1),
             ("Bibliotecas adicionais", 0)
-         };
-      public static string View(){
+        };
+
+        public static string View()
+        {
             var sb = new StringBuilder();
             sb.AppendLine($"Nome: {Name}");
             sb.AppendLine();
             sb.AppendLine("Habilidades:");
-            foreach(var skill in Skills){
-                  sb.AppendLine($"\t{skill.Item1} - {skill.Item2} estrelas");
+            foreach (var skill in Skills)
+            {
+                sb.AppendLine($"\t{skill.Item1} - {skill.Item2} estrelas");
             }
             var sum = Skills.Sum(x => x.Item2);
             sb.AppendLine();
             sb.AppendLine($"Total de estrelas: {sum}");
             return sb.ToString();
-      }
+        }
+    }
 }
