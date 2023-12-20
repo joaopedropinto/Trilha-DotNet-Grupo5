@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace DOTNET_P002;
+namespace DOTNET_P002.WebAPI;
 public static class Jhonata{
       public static string Name => "Jhonata Araújo";
       public static List<(string, int)> Skills => new List<(string, int)>{

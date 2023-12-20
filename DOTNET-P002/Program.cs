@@ -1,4 +1,4 @@
-using DOTNET_P002;
+using DOTNET_P002.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
