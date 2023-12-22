@@ -5,7 +5,7 @@
 **Objetivo:**
 Criar um arquivo markdown denominado Readme.md que descreva a prática atual do grupo, seguindo os passos de versionamento definidos.
 
-**Passos Planejados:**@
+**Passos Planejados:**
 
 1. **Criação da Branch Inicial:**
    - A partir da Main/Master, no commit inicial, criar uma Branch denominada “Roadmap_ASP_NET_CORE” no repositório do grupo.
