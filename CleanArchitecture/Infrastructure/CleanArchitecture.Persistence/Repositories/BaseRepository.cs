@@ -37,9 +37,15 @@ namespace CleanArchitecture.Infrastructure.Persistence.Repositories
             Context.Set<T>().Remove(entity);
         }
 
-        public async Task<T?> Get(Guid id, CancellationToken cancellationToken = default)
+        public async Task<T> Get(Guid id, CancellationToken cancellationToken = default)
         {
-            return await Context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            T? entity = await Context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"A entidade do tipo {typeof(T).Name} com o Id {id} não foi encontrada.");
+            }
+
+            return entity;
         }
 
         public async Task<List<T>> GetAll(CancellationToken cancellationToken = default)
