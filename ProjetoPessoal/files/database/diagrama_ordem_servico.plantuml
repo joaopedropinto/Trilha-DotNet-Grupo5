@@ -64,7 +64,7 @@ entity Peca {
 entity Finalizacao {
 + ID <<PK>>
   + Data de Finalizacao
-  + Comentário
+  + Comentario
 }
 
 entity OrdemServicoEquipamento{
