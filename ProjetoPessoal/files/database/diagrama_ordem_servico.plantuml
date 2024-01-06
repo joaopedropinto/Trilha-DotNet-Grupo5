@@ -1,13 +1,13 @@
-@startuml Gestão de Ordem de Serviço
-entity OrdemServiço {
+@startuml Gestao de Ordem de Servico
+entity OrdemServico {
 + ID <<PK>>
   + Data de Abertura
   + Prazo
   + Forma de Pagamento
   + Status
 + Cliente <<FK>>
-+ Técnico <<FK>>
-+ Finalização <<FK>>
++ Tecnico <<FK>>
++ Finalizacao <<FK>>
 }
 
 entity Cliente {
@@ -17,10 +17,10 @@ entity Cliente {
   + Nome
   + Telefone
   + Email
-  + Endereço
+  + Endereco
 }
 
-entity Técnico {
+entity Tecnico {
 + ID <<PK>>
   + Nome
   + Especialidade
@@ -36,67 +36,67 @@ entity Equipamento {
   + Modelo
   + Dados Adicionais
   + Defeito Declarado
-  + Solução
+  + Solucao
 }
 
-entity Serviço {
+entity Servico {
 + ID <<PK>>
   + Data
-  + Descrição
+  + Descricao
   + Valor
 }
 
-entity Ocorrência {
+entity Ocorrencia {
 + ID <<PK>>
-  + Descrição
-  + Situação
+  + Descricao
+  + Situacao
   + Data e Hora
 }
 
 
-entity Peça {
+entity Peca {
 + ID <<PK>>
   + Tipo
-  + Descrição
+  + Descricao
   + Valor
 }
 
-entity Finalização {
+entity Finalizacao {
 + ID <<PK>>
-  + Data de Finalização
+  + Data de Finalizacao
   + Comentário
 }
 
-entity OrdemServiçoEquipamento{
- + OrdemServiçoID <<PK, FK>>
+entity OrdemServicoEquipamento{
+ + OrdemServicoID <<PK, FK>>
  + EquipamentoID <<PK, FK>>
 }
 
-entity OrdemServiçoServiço {
- + OrdemServiçoID <<PK, FK>>
- + ServiçoID <<PK, FK>>
+entity OrdemServicoServico {
+ + OrdemServicoID <<PK, FK>>
+ + ServicoID <<PK, FK>>
 }
 
-entity OrdemServiçoOcorrência{
-  + OrdemServiçoID <<PK, FK>>
-  + OcorrênciaID <<PK, FK>>
+entity OrdemServicoOcorrencia{
+  + OrdemServicoID <<PK, FK>>
+  + OcorrenciaID <<PK, FK>>
 }
 
-entity OrdemServiçoPeça {
-  + OrdemServiçoID  <<PK, FK>>
-  + PeçaID <<PK, FK>>
+entity OrdemServicoPeca {
+  + OrdemServicoID  <<PK, FK>>
+  + PecaID <<PK, FK>>
 }
 
 
-OrdemServiço "0..*" -- "1" Cliente
-OrdemServiço "0..*" --"1" Técnico
-OrdemServiço "1" -- "0..*" OrdemServiçoEquipamento
-OrdemServiçoEquipamento"1..*" -- "1" Equipamento
-OrdemServiço "1" -- "0..*" OrdemServiçoServiço
-OrdemServiçoServiço"1..*" -- "1" Serviço
-OrdemServiço "1" -- "0..*" OrdemServiçoOcorrência
-OrdemServiço "1" -- "0..*" OrdemServiçoPeça
-OrdemServiçoOcorrência"1..*" -- "1" Ocorrência
-OrdemServiçoPeça "1..*" -- "1" Peça
-OrdemServiço "1" --"0..1" Finalização
+OrdemServico "0..*" -- "1" Cliente
+OrdemServico "0..*" --"1" Tecnico
+OrdemServico "1" -- "0..*" OrdemServicoEquipamento
+OrdemServicoEquipamento"1..*" -- "1" Equipamento
+OrdemServico "1" -- "0..*" OrdemServicoServico
+OrdemServicoServico"1..*" -- "1" Servico
+OrdemServico "1" -- "0..*" OrdemServicoOcorrencia
+OrdemServico "1" -- "0..*" OrdemServicoPeca
+OrdemServicoOcorrencia"1..*" -- "1" Ocorrencia
+OrdemServicoPeca "1..*" -- "1" Peca
+OrdemServico "1" --"0..1" Finalizacao
 @enduml
