@@ -1,0 +1,102 @@
+@startuml Gestão de Ordem de Serviço
+entity OrdemServiço {
++ ID <<PK>>
+  + Data de Abertura
+  + Prazo
+  + Forma de Pagamento
+  + Status
++ Cliente <<FK>>
++ Técnico <<FK>>
++ Finalização <<FK>>
+}
+
+entity Cliente {
++ ID <<PK>>
+  + CPF
+  + CNPJ
+  + Nome
+  + Telefone
+  + Email
+  + Endereço
+}
+
+entity Técnico {
++ ID <<PK>>
+  + Nome
+  + Especialidade
+  + Telefone
+  + Email
+}
+
+
+entity Equipamento {
++ ID <<PK>>
+  + Tipo
+  + Marca
+  + Modelo
+  + Dados Adicionais
+  + Defeito Declarado
+  + Solução
+}
+
+entity Serviço {
++ ID <<PK>>
+  + Data
+  + Descrição
+  + Valor
+}
+
+entity Ocorrência {
++ ID <<PK>>
+  + Descrição
+  + Situação
+  + Data e Hora
+}
+
+
+entity Peça {
++ ID <<PK>>
+  + Tipo
+  + Descrição
+  + Valor
+}
+
+entity Finalização {
++ ID <<PK>>
+  + Data de Finalização
+  + Comentário
+}
+
+entity OrdemServiçoEquipamento{
+ + OrdemServiçoID <<PK, FK>>
+ + EquipamentoID <<PK, FK>>
+}
+
+entity OrdemServiçoServiço {
+ + OrdemServiçoID <<PK, FK>>
+ + ServiçoID <<PK, FK>>
+}
+
+entity OrdemServiçoOcorrência{
+  + OrdemServiçoID <<PK, FK>>
+  + OcorrênciaID <<PK, FK>>
+}
+
+entity OrdemServiçoPeça {
+  + OrdemServiçoID  <<PK, FK>>
+  + PeçaID <<PK, FK>>
+}
+
+
+OrdemServiço "0..*" -- "1" Cliente
+OrdemServiço "0..*" --"1" Técnico
+OrdemServiço "1" -- "0..*" OrdemServiçoEquipamento
+OrdemServiçoEquipamento"1..*" -- "1" Equipamento
+OrdemServiço "1" -- "0..*" OrdemServiçoServiço
+OrdemServiçoServiço"1..*" -- "1" Serviço
+OrdemServiço "1" -- "0..*" OrdemServiçoOcorrência
+OrdemServiço "1" -- "0..*" OrdemServiçoPeça
+OrdemServiçoOcorrência"1..*" -- "1" Ocorrência
+OrdemServiçoPeça "1..*" -- "1" Peça
+OrdemServiço "1" --"0..1" Finalização
+@enduml
