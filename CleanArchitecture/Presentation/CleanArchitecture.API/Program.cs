@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigurePersistenceApp(builder.Configuration);
 builder.Services.ConfigureApplicationApp();
+//builder.Services.ConfigureCorsPolicy();
 
 builder.Services.AddControllers();
 
@@ -20,6 +21,7 @@ CreateDatabase(app);
 
 app.UseSwagger();
 app.UseSwaggerUI();
+//app.UserCors();
 app.MapControllers();
 app.Run();
 
