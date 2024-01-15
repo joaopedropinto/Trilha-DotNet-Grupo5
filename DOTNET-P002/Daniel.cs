@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+
 namespace DOTNET_P002;
 
 public class Daniel{
