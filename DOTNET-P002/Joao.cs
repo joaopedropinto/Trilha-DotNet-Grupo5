@@ -1,16 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace DOTNET_P002.WebAPI;
-public static class Joao
+namespace DOTNET_P002
 {
-    public static string Name => "João Pedro de Gois Pinto";
-    public static List<(string, int)> Skills => new List<(string, int)>{
+    public static class Joao
+    {
+        public static string Name => "João Pedro de Gois Pinto";
+        public static List<(string, int)> Skills => new List<(string, int)>
+        {
             ("Fundamentos de C#", 4),
             ("Habilidades Gerais de Desenvolvimento", 3),
             ("Fundamentos de Banco de Dados", 2),
-            ("Fundamentos basicos de ASP.NET Core", 2),
+            ("Fundamentos básicos de ASP.NET Core", 2),
             ("ORM", 1),
-            ("Injeção de Dependencia", 2),
+            ("Injeção de Dependência", 2),
             ("Caching", 0),
             ("Log Frameworks", 1),
             ("Banco de Dados", 2),
@@ -25,20 +30,22 @@ public static class Joao
             ("Bibliotecas de cliente", 3),
             ("Engine de template", 1),
             ("Bibliotecas adicionais", 1)
-         };
-    public static string View()
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine($"Nome: {Name}");
-        sb.AppendLine();
-        sb.AppendLine("Habilidades:");
-        foreach (var skill in Skills)
+        };
+
+        public static string View()
         {
-            sb.AppendLine($"\t{skill.Item1} - {skill.Item2} estrelas");
+            var sb = new StringBuilder();
+            sb.AppendLine($"Nome: {Name}");
+            sb.AppendLine();
+            sb.AppendLine("Habilidades:");
+            foreach (var skill in Skills)
+            {
+                sb.AppendLine($"\t{skill.Item1} - {skill.Item2} estrelas");
+            }
+            var sum = Skills.Sum(x => x.Item2);
+            sb.AppendLine();
+            sb.AppendLine($"Total de estrelas: {sum}");
+            return sb.ToString();
         }
-        var sum = Skills.Sum(x => x.Item2);
-        sb.AppendLine();
-        sb.AppendLine($"Total de estrelas: {sum}");
-        return sb.ToString();
     }
 }

@@ -1,34 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace DOTNET_P002
 {
-    public static class Jhonata
+    public static class Kayque
     {
-        public static string Name => "Jhonata Araújo";
-        public static List<(string, int)> Skills => new List<(string, int)>{
+        public static string Name { get; } = "Kayque Piton";
+        public static List<(string, int)> Skills { get; } = new List<(string, int)>
+        {
             ("Fundamentos de C#", 4),
-            ("Habilidades Gerais de Desenvolvimento", 3) ,
-            ("Fundamentos de Banco de Dados", 3),
-            ("Fundamentos basicos de ASP.NET Core", 2),
+            ("Habilidades Gerais de Desenvolvimento", 4),
+            ("Fundamentos de Banco de Dados", 5),
+            ("Fundamentos básicos de ASP.NET Core", 2),
             ("ORM", 2),
-            ("Injeção de Dependencia", 1),
-            ("Caching", 0),
-            ("Log Frameworks", 0),
-            ("Banco de Dados", 2),
+            ("Injeção de Dependência", 2),
+            ("Caching", 1),
+            ("Log Frameworks", 1),
+            ("Banco de Dados", 4),
             ("API Cliente e Comunicação", 1),
-            ("Comunicação em tempo real", 0),
+            ("Comunicação em tempo real", 1),
             ("Mapeamento de Objeto", 1),
-            ("Marcação de tarefas", 0),
-            ("Testagem", 1),
-            ("Micro-Serviços", 0),
-            ("CI/CD", 0),
+            ("Marcação de tarefas", 1),
+            ("Testagem", 3),
+            ("Micro-Serviços", 1),
+            ("CI/CD", 1),
             ("Design e Arquitetura de software", 2),
-            ("Bibliotecas de cliente", 2),
+            ("Bibliotecas de cliente", 3),
             ("Engine de template", 1),
-            ("Bibliotecas adicionais", 0)
+            ("Bibliotecas adicionais", 1)
         };
 
         public static string View()
