@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjetoPessoal", "ProjetoPe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoPessoalMinimalAPI", "ProjetoPessoal\ProjetoPessoalMinimalAPI\ProjetoPessoalMinimalAPI.csproj", "{05442536-0F9D-4982-B101-6C7AAD96500A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico", "Ordem_Servico\Ordem_Servico.csproj", "{E51E7B69-2EC4-49B2-B319-411C3693EA99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.Domain", "Ordem_Servico\Ordem_Servico.Domain.csproj", "{E51E7B69-2EC4-49B2-B319-411C3693EA99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
