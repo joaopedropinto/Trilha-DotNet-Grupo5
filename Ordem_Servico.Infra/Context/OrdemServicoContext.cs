@@ -28,14 +28,17 @@ public class OrdemServicoContext : DbContext
         modelBuilder.Entity<OrdemServico>()
             .HasOne(os => os.Finalizacao)
             .WithOne(f => f.OrdemServico)
-            .HasForeignKey<Finalizacao>(os => os.FinalizacaoID)
-            .HasForeignKey<Cliente>(c => c.ClienteID)
-            .HasForeignKey<Tecnico>(t => t.TecnicoID);
+            .HasForeignKey<Finalizacao>(os => os.FinalizacaoID);
         
-        modelBuilder.Entity<Cliente>()
-            .HasMany(c => c.OrdemServico);
-
-        modelBuilder.Entity<Tecnico>()
-            .HasMany(c => c.OrdemServico);
+        modelBuilder.Entity<OrdemServico>()
+            .HasOne(o => o.Cliente)
+            .WithMany(c => c.OrdemServico)
+            .HasForeignKey(o => o.ClienteID);
+        
+        modelBuilder.Entity<OrdemServico>()
+            .HasOne(o => o.Tecnico)
+            .WithMany(t => t.OrdemServico)
+            .HasForeignKey(o => o.TecnicoID);
+        
     }
 }
