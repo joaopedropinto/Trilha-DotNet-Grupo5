@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoPessoalMinimalAPI", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.Domain", "Ordem_Servico.Domain\Ordem_Servico.Domain.csproj", "{473564C9-F87E-4958-9062-5296C0DCA740}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.Infra", "Ordem_Servico.Infra\Ordem_Servico.Infra.csproj", "{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{473564C9-F87E-4958-9062-5296C0DCA740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{473564C9-F87E-4958-9062-5296C0DCA740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{473564C9-F87E-4958-9062-5296C0DCA740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
