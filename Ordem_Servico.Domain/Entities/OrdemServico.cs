@@ -10,4 +10,6 @@ public class OrdemServico
     public int ClienteID { get; set; }
     public int TecnicoID { get; set; }
     public Finalizacao? Finalizacao { get; set; }
+    public Cliente? Cliente { get; set; }
+    public Tecnico? Tecnico { get; set; }
 }
