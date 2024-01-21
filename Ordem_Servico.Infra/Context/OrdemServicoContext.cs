@@ -5,11 +5,6 @@ public class OrdemServicoContext : DbContext
 {
     public DbSet<OrdemServico> OrdemServico { get; set; }
     public DbSet<Finalizacao> Finalizacao { get; set; }
-
-    public OrdemServicoContext(DbContextOptions<OrdemServicoContext> options) : base(options)
-    {
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
