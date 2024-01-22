@@ -6,6 +6,8 @@ namespace ResTIConnect.Infra;
 public class ResTIConnectContext : DbContext
 {
     public DbSet<Log>? Logs { get; set; }
+    public DbSet<Endereco>? Enderecos { get; set; }
+    public DbSet<Perfil>? Perfis { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
