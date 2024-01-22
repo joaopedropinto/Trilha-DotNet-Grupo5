@@ -7,6 +7,10 @@ public class OrdemServicoContext : DbContext
     public DbSet<Finalizacao> Finalizacao { get; set; }
     public DbSet<Cliente> Cliente { get; set; }
     public DbSet<Tecnico> Tecnico { get; set; }
+    public DbSet<Equipamento> Equipamento { get; set; }
+    public DbSet<Servico> Servico { get; set; }
+    public DbSet<Ocorrencia> Ocorrencia { get; set; }
+    public DbSet<Peca> Peca { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -23,7 +27,10 @@ public class OrdemServicoContext : DbContext
         modelBuilder.Entity<OrdemServico>().ToTable("OrdemServico").HasKey(o => o.OrdemServicoID);
         modelBuilder.Entity<Cliente>().ToTable("Cliente").HasKey(c => c.ClienteID);
         modelBuilder.Entity<Tecnico>().ToTable("Tecnico").HasKey(t => t.TecnicoID);
-
+        modelBuilder.Entity<Equipamento>().ToTable("Equipamento").HasKey(e => e.EquipamentoID);
+        modelBuilder.Entity<Servico>().ToTable("Servico").HasKey(s => s.ServicoID);
+        modelBuilder.Entity<Ocorrencia>().ToTable("Ocorrencia").HasKey(o => o.OcorrenciaID);
+        modelBuilder.Entity<Peca>().ToTable("Peca").HasKey(p => p.PecaID);
 
         modelBuilder.Entity<OrdemServico>()
             .HasOne(os => os.Finalizacao)
@@ -39,6 +46,22 @@ public class OrdemServicoContext : DbContext
             .HasOne(o => o.Tecnico)
             .WithMany(t => t.OrdemServico)
             .HasForeignKey(o => o.TecnicoID);
+
+        modelBuilder.Entity<OrdemServico>()
+            .HasMany(o => o.Equipamentos)
+            .WithMany(e => e.OrdemServicos);
+
+        modelBuilder.Entity<OrdemServico>()
+            .HasMany(o => o.Servicos)
+            .WithMany(s => s.OrdemServicos);
+        
+        modelBuilder.Entity<OrdemServico>()
+            .HasMany(o => o.Ocorrencias)
+            .WithMany(o => o.OrdemServicos);
+
+        modelBuilder.Entity<OrdemServico>()
+            .HasMany(o => o.Pecas)
+            .WithMany(p => p.OrdemServicos);
         
     }
 }

@@ -12,4 +12,8 @@ public class OrdemServico
     public Finalizacao? Finalizacao { get; set; }
     public Cliente? Cliente { get; set; }
     public Tecnico? Tecnico { get; set; }
+    public ICollection<Equipamento>? Equipamentos { get; set; }
+    public ICollection<Servico>? Servicos { get; set; }
+    public ICollection<Ocorrencia>? Ocorrencias { get; set; }
+    public ICollection<Peca>? Pecas { get; set; }
 }
