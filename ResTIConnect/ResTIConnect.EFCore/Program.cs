@@ -8,8 +8,15 @@ namespace ResTIConnect.EFCore
         public static void Main(string[] args)
         {
             var context = new ResTIConnectContext();
-            var crudService  = new CrudService(context);
+            var crudService = new CrudService(context);
+            context.Usuarios.RemoveRange(context.Usuarios);
+            RunUserOperations(crudService);
 
+        }
+
+        private static void RunUserOperations(CrudService crudService)
+        {
+            
             Console.WriteLine("Criando um novo usuário no banco de dados...");
             var usuario1 = new Usuario
             {
@@ -39,13 +46,44 @@ namespace ResTIConnect.EFCore
                     }
             };
 
-            crudService.Create(usuario1);
+            var usuario2 = new Usuario
+            {
+                Nome = "Maria da Silva",
+                Apelido = "Maria",
+                Email = "maria@email.com",
+                Senha = "123456",
+                Telefone = "999999999",
+                Endereco = new Endereco
+                {
+                    Logradouro = "Rua dos Espertos",
+                    Numero = 0,
+                    Cidade = "São Paulo",
+                    Complemento = "Apto 123",
+                    Bairro = "Vila do Chaves",
+                    Estado = "SP",
+                    Cep = "00000-000",
+                    Pais = "Brasil"
+                },
 
-            Console.WriteLine("Usuário criado com sucesso!");
+                Perfis = new List<Perfil>
+                    {
+                        new Perfil
+                        {
+                            Descricao = "Usuário",
+                            Permissoes = "Usuário"
+                        }
+                    }
+
+            };
+
+            crudService.Create(usuario1);
+            crudService.Create(usuario2);
+
+            Console.WriteLine("Usuários criados com sucesso!");
 
             Console.WriteLine("Listando todos os usuários do banco de dados...");
 
-            var usuarios = crudService.GetAll<Usuario>();            
+            var usuarios = crudService.GetAll<Usuario>();
 
             foreach (var usuario in usuarios)
             {
@@ -103,7 +141,7 @@ namespace ResTIConnect.EFCore
             {
                 Console.WriteLine($"Usuário deletado com sucesso!");
             }
-
         }
+
     }
 }
