@@ -11,12 +11,91 @@ namespace ResTIConnect.EFCore
             var crudService = new CrudService(context);
             context.Usuarios.RemoveRange(context.Usuarios);
             RunUserOperations(crudService);
+            RunEventOperations(crudService);
+        }
 
+        private static void RunEventOperations(CrudService crudService)
+        {
+            Console.WriteLine("\nCriando um novo evento no banco de dados...");
+            var evento1 = new Evento
+            {
+                Tipo = "Evento de Teste",
+                Descricao = "Evento de Teste",
+                Codigo = "123456",
+                Conteudo = "Conteúdo do Evento de Teste",
+                DataHoraOcorrencia = DateTimeOffset.Now
+            };
+
+            var evento2 = new Evento
+            {
+                Tipo = "Evento de Teste 2",
+                Descricao = "Evento de Teste 2",
+                Codigo = "123456",
+                Conteudo = "Conteúdo do Evento de Teste 2",
+                DataHoraOcorrencia = DateTimeOffset.Now
+            };
+
+            crudService.Create(evento1);
+            crudService.Create(evento2);
+
+            Console.WriteLine("Eventos criados com sucesso!");
+
+            Console.WriteLine("Listando todos os eventos do banco de dados...");
+
+            var eventos = crudService.GetAll<Evento>();
+
+            foreach (var evento in eventos)
+            {
+                Console.WriteLine($"Evento: {evento.Tipo}");
+                Console.WriteLine($"Descrição: {evento.Descricao}");
+                Console.WriteLine($"Código: {evento.Codigo}");
+                Console.WriteLine($"Conteúdo: {evento.Conteudo}");
+                Console.WriteLine($"Data e Hora de Ocorrência: {evento.DataHoraOcorrencia}");
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Listagem concluída!");
+
+            Console.WriteLine("Atualizando o evento criado...");
+
+            evento1.Tipo = "Evento de Teste Atualizado";
+
+            crudService.Update(evento1);
+
+            Console.WriteLine("Verificando se o evento foi atualizado...");
+
+            var eventoAtualizado = crudService.GetByFilter<Evento>(e => e.Tipo == "Evento de Teste Atualizado");
+
+            if (eventoAtualizado != null)
+            {
+                Console.WriteLine($"Evento atualizado: {eventoAtualizado.Tipo}");
+            }
+            else
+            {
+                Console.WriteLine("Evento não foi atualizado!");
+            }
+
+            Console.WriteLine("Deletando o evento criado...");
+
+            crudService.Delete(evento1);
+
+            Console.WriteLine("Verificando se o evento foi deletado...");
+
+            var eventoDeletado = crudService.GetByFilter<Evento>(e => e.Tipo == "Evento de Teste Atualizado");
+
+            if (eventoDeletado != null)
+            {
+                Console.WriteLine("Evento não foi deletado!");
+            }
+            else
+            {
+                Console.WriteLine($"Evento deletado com sucesso!");
+            }
         }
 
         private static void RunUserOperations(CrudService crudService)
         {
-            
+
             Console.WriteLine("Criando um novo usuário no banco de dados...");
             var usuario1 = new Usuario
             {

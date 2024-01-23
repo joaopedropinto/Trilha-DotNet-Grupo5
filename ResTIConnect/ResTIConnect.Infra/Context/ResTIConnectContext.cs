@@ -5,10 +5,11 @@ namespace ResTIConnect.Infra;
 
 public class ResTIConnectContext : DbContext
 {
-    public DbSet<Log>? Logs { get; set; }
-    public DbSet<Endereco>? Enderecos { get; set; }
-    public DbSet<Perfil>? Perfis { get; set; }
-    public DbSet<Usuario>? Usuarios { get; set; }
+    public DbSet<Log> Logs { get; set; }
+    public DbSet<Endereco> Enderecos { get; set; }
+    public DbSet<Perfil> Perfis { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Evento> Eventos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +28,7 @@ public class ResTIConnectContext : DbContext
         modelBuilder.Entity<Endereco>().ToTable("Enderecos").HasKey(e => e.EnderecoId);
         modelBuilder.Entity<Perfil>().ToTable("Perfis").HasKey(p => p.PerfilId);
         modelBuilder.Entity<Usuario>().ToTable("Usuarios").HasKey(u => u.UsuarioId);
+        modelBuilder.Entity<Evento>().ToTable("Eventos").HasKey(e => e.EventoId);
 
         modelBuilder.Entity<Usuario>()
             .HasOne(u => u.Endereco)
