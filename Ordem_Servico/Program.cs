@@ -9,10 +9,20 @@ class Program
     {
         using (var context = new OrdemServicoContext())
         {
+            context.Cliente.RemoveRange(context.Cliente);
+            context.Tecnico.RemoveRange(context.Tecnico);
+            context.OrdemServico.RemoveRange(context.OrdemServico);
+            context.Finalizacao.RemoveRange(context.Finalizacao);
+            context.Servico.RemoveRange(context.Servico);
+            context.Peca.RemoveRange(context.Peca);
+            context.Ocorrencia.RemoveRange(context.Ocorrencia);
+            context.Equipamento.RemoveRange(context.Equipamento);
+            context.SaveChanges();
             // Create
             var newCliente = new Cliente
             {
                 CPF = "12345678901",
+                CNPJ = "12345678901234",
                 Nome = "Nome do Cliente",
                 Telefone = "123456789",
                 Email = "cliente@email.com",
@@ -81,38 +91,6 @@ class Program
                 Console.WriteLine("Equipamento removido");
             }
             // Create
-            var newFinalizacao = new Finalizacao
-            {
-                DataFinalizacao = DateTime.Now,
-                Comentario = "Comentário da Finalização"
-            };
-
-            context.Finalizacao.Add(newFinalizacao);
-            context.SaveChanges();
-
-            // Read
-            var finalizacao = context.Finalizacao.FirstOrDefault(f => f.FinalizacaoID == newFinalizacao.FinalizacaoID);
-            if (finalizacao != null)
-            {
-                Console.WriteLine($"Finalização encontrada: {finalizacao.Comentario}");
-            }
-
-            // Update
-            if (finalizacao != null)
-            {
-                finalizacao.Comentario = "Novo Comentário";
-                context.SaveChanges();
-                Console.WriteLine($"Finalização atualizada: {finalizacao.Comentario}");
-            }
-
-            // Delete
-            if (finalizacao != null)
-            {
-                context.Finalizacao.Remove(finalizacao);
-                context.SaveChanges();
-                Console.WriteLine("Finalização removida");
-            }
-            // Create
             var novaOcorrencia = new Ocorrencia
             {
                 Descricao = "Descrição da Ocorrência",
@@ -146,14 +124,36 @@ class Program
                 Console.WriteLine("Ocorrência removida");
             }
             // Create
+            var clienteOS = new Cliente
+            {
+                CPF = "12345678901",
+                CNPJ = "12345678901234",
+                Nome = "Nome do Cliente",
+                Telefone = "123456789",
+                Email = "cliente@gmail.com",
+                Endereco = "Rua do Cliente, 123"
+            };
+
+            context.Cliente.Add(clienteOS);
+
+            var tecnicoOS = new Tecnico
+            {
+                Nome = "Nome do Técnico",
+                Especialidade = "Especialidade",
+                Telefone = "123456789",
+                Email = "tecnico@gmail.com",
+            };
+
+            context.Tecnico.Add(tecnicoOS);
+
             var novaOrdemServico = new OrdemServico
             {
                 DataAbertura = DateTime.Now,
                 Prazo = DateTime.Now.AddDays(7),
                 FormaPagamento = "Cartão de Crédito",
                 Status = "Em Andamento",
-                ClienteID = 1, // Substitua pelo ID do cliente real
-                TecnicoID = 1 // Substitua pelo ID do técnico real
+                Cliente = clienteOS,
+                Tecnico = tecnicoOS
             };
 
             context.OrdemServico.Add(novaOrdemServico);
@@ -192,6 +192,40 @@ class Program
             context.Servico.Add(novoServico);
             context.SaveChanges();
 
+
+            // Create
+            var newFinalizacao = new Finalizacao
+            {
+                DataFinalizacao = DateTime.Now,
+                Comentario = "Comentário da Finalização",
+                OrdemServico = novaOrdemServico
+            };
+
+            context.Finalizacao.Add(newFinalizacao);
+            context.SaveChanges();
+
+            // Read
+            var finalizacao = context.Finalizacao.FirstOrDefault(f => f.FinalizacaoID == newFinalizacao.FinalizacaoID);
+            if (finalizacao != null)
+            {
+                Console.WriteLine($"Finalização encontrada: {finalizacao.Comentario}");
+            }
+
+            // Update
+            if (finalizacao != null)
+            {
+                finalizacao.Comentario = "Novo Comentário";
+                context.SaveChanges();
+                Console.WriteLine($"Finalização atualizada: {finalizacao.Comentario}");
+            }
+
+            // Delete
+            if (finalizacao != null)
+            {
+                context.Finalizacao.Remove(finalizacao);
+                context.SaveChanges();
+                Console.WriteLine("Finalização removida");
+            }
             // Read
             var servico = context.Servico.FirstOrDefault(s => s.ServicoID == novoServico.ServicoID);
             if (servico != null)
