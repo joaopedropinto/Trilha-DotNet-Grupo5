@@ -9,9 +9,167 @@ namespace ResTIConnect.EFCore
         {
             var context = new ResTIConnectContext();
             var crudService = new CrudService(context);
+            
+            // Deletar todos os registros do banco de dados
             context.Usuarios.RemoveRange(context.Usuarios);
+            context.Perfis.RemoveRange(context.Perfis);
+            context.Enderecos.RemoveRange(context.Enderecos);
+            context.Sistemas.RemoveRange(context.Sistemas);
+            context.Eventos.RemoveRange(context.Eventos);
+            context.SaveChanges();
+
+            // Criar novos registros no banco de dados
             RunUserOperations(crudService);
             RunEventOperations(crudService);
+            RunSystemOperations(crudService);
+        }
+
+        private static void RunSystemOperations(CrudService crudService)
+        {
+            Console.WriteLine("\nCriando um novo sistema no banco de dados...");
+
+            var sistema1 = new Sistema
+            {
+                Descricao = "Sistema de Teste",
+                Tipo = "Sistema de Teste",
+                EnderecoEntrada = "http://localhost:5000",
+                EnderecoSaida = "http://localhost:5000",
+                Protocolo = "http",
+                DataHoraInicioIntegracao = DateTimeOffset.Now,
+                Status = "Ativo"
+            };
+
+            var usuario = crudService.GetByFilter<Usuario>(u => u.Nome == "Maria da Silva");
+
+            sistema1.Usuarios.Add(usuario);
+
+
+            var usuario2 = new Usuario
+            {
+                Nome = "Romario Fernandes",
+                Apelido = "Romario",
+                Email = "romario@email.com",
+                Senha = "123456",
+                Telefone = "999999999",
+                Endereco = new Endereco
+                {
+                    Logradouro = "Rua dos Novos",
+                    Numero = 0,
+                    Cidade = "São Paulo",
+                    Complemento = "Apto 123",
+                    Bairro = "Vila do Chaves",
+                    Estado = "SP",
+                    Cep = "00000-000",
+                    Pais = "Brasil"
+                },
+
+                Perfis = new List<Perfil>
+                    {
+                        new Perfil
+                        {
+                            Descricao = "Usuário2",
+                            Permissoes = "Usuário2"
+                        }
+                    }
+
+            };
+
+            crudService.Create(usuario2);
+
+            var evento1 = crudService.GetByFilter<Evento>(e => e.Tipo == "Evento de Teste 2");
+
+            sistema1.Eventos.Add(evento1);
+
+
+            var sistema2 = new Sistema
+            {
+                Descricao = "Sistema de Teste 2",
+                Tipo = "Sistema de Teste 2",
+                EnderecoEntrada = "http://localhost:5000",
+                EnderecoSaida = "http://localhost:5000",
+                Protocolo = "http",
+                DataHoraInicioIntegracao = DateTimeOffset.Now,
+                Status = "Ativo"
+            };
+
+            var usuario3 = crudService.GetByFilter<Usuario>(u => u.Nome == "Romario Fernandes");
+
+            sistema2.Usuarios.Add(usuario3);
+
+            crudService.Create(sistema1);
+            crudService.Create(sistema2);
+
+            Console.WriteLine("Sistema criado com sucesso!");
+
+            Console.WriteLine("Listando todos os sistemas do banco de dados...");
+
+            var sistemas = crudService.GetAll<Sistema>();
+
+            foreach (var sistema in sistemas)
+            {
+                Console.WriteLine($"Sistema: {sistema.Descricao}");
+                Console.WriteLine($"Tipo: {sistema.Tipo}");
+                Console.WriteLine($"Endereço de Entrada: {sistema.EnderecoEntrada}");
+                Console.WriteLine($"Endereço de Saída: {sistema.EnderecoSaida}");
+                Console.WriteLine($"Protocolo: {sistema.Protocolo}");
+                Console.WriteLine($"Data e Hora de Início da Integração: {sistema.DataHoraInicioIntegracao}");
+                Console.WriteLine($"Status: {sistema.Status}");
+                if (sistema.Usuarios.Any())
+                {
+                    Console.WriteLine($"Usuários: {sistema.Usuarios.Select(u => u.Nome).Aggregate((u1, u2) => $"{u1}, {u2}")}");
+                }
+                else
+                {
+                    Console.WriteLine("Usuários: Nenhum usuário associado.");
+                }
+                if (sistema.Eventos.Any())
+                {
+                    Console.WriteLine($"Eventos: {sistema.Eventos.Select(e => e.Tipo).Aggregate((e1, e2) => $"{e1}, {e2}")}");
+                }
+                else
+                {
+                    Console.WriteLine("Eventos: Nenhum evento associado.");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Listagem concluída!");
+
+            Console.WriteLine("Atualizando o sistema criado...");
+
+            sistema1.Descricao = "Sistema de Teste Atualizado";
+
+            crudService.Update(sistema1);
+
+            Console.WriteLine("Verificando se o sistema foi atualizado...");
+
+            var sistemaAtualizado = crudService.GetByFilter<Sistema>(s => s.Descricao == "Sistema de Teste Atualizado");
+
+            if (sistemaAtualizado != null)
+            {
+                Console.WriteLine($"Sistema atualizado: {sistemaAtualizado.Descricao}");
+            }
+            else
+            {
+                Console.WriteLine("Sistema não foi atualizado!");
+            }
+
+            Console.WriteLine("Deletando o sistema criado...");
+
+            crudService.Delete(sistema1);
+
+            Console.WriteLine("Verificando se o sistema foi deletado...");
+
+            var sistemaDeletado = crudService.GetByFilter<Sistema>(s => s.Descricao == "Sistema de Teste Atualizado");
+
+            if (sistemaDeletado != null)
+            {
+                Console.WriteLine("Sistema não foi deletado!");
+            }
+            else
+            {
+                Console.WriteLine($"Sistema deletado com sucesso!");
+            }
         }
 
         private static void RunEventOperations(CrudService crudService)

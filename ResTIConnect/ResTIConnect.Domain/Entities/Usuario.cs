@@ -11,4 +11,5 @@ public class Usuario
     public int EnderecoId { get; set; }
     public Endereco? Endereco { get; set; }
     public ICollection<Perfil>? Perfis { get; set; }
+    public virtual ICollection<Sistema> Sistemas { get; set; } = new List<Sistema>();
 }

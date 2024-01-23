@@ -10,6 +10,7 @@ public class ResTIConnectContext : DbContext
     public DbSet<Perfil> Perfis { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Evento> Eventos { get; set; }
+    public DbSet<Sistema> Sistemas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -29,6 +30,7 @@ public class ResTIConnectContext : DbContext
         modelBuilder.Entity<Perfil>().ToTable("Perfis").HasKey(p => p.PerfilId);
         modelBuilder.Entity<Usuario>().ToTable("Usuarios").HasKey(u => u.UsuarioId);
         modelBuilder.Entity<Evento>().ToTable("Eventos").HasKey(e => e.EventoId);
+        modelBuilder.Entity<Sistema>().ToTable("Sistemas").HasKey(s => s.Sistemald);
 
         modelBuilder.Entity<Usuario>()
             .HasOne(u => u.Endereco)
@@ -39,5 +41,35 @@ public class ResTIConnectContext : DbContext
             .HasMany(u => u.Perfis)
             .WithOne(p => p.Usuario)
             .HasForeignKey(p => p.UsuarioId);
+
+        modelBuilder.Entity<Sistema>()
+            .HasMany(s => s.Usuarios)
+            .WithMany(u => u.Sistemas)
+            .UsingEntity<Dictionary<string, object>>(
+                "SistemaUsuario",
+                j => j
+                    .HasOne<Usuario>()
+                    .WithMany()
+                    .HasForeignKey("UsuarioId"),
+                j => j
+                    .HasOne<Sistema>()
+                    .WithMany()
+                    .HasForeignKey("SistemaId")
+            );
+
+        modelBuilder.Entity<Sistema>()
+            .HasMany(s => s.Eventos)
+            .WithMany(e => e.Sistemas)
+            .UsingEntity<Dictionary<string, object>>(
+                "SistemaEvento",
+                j => j
+                    .HasOne<Evento>()
+                    .WithMany()
+                    .HasForeignKey("EventoId"),
+                j => j
+                    .HasOne<Sistema>()
+                    .WithMany()
+                    .HasForeignKey("SistemaId")
+            );
     }
 }
