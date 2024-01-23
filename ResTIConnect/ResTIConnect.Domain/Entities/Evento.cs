@@ -8,4 +8,5 @@ public class Evento
     public string? Codigo { get; set; }
     public string? Conteudo { get; set; }
     public DateTimeOffset DataHoraOcorrencia { get; set; }
+    public virtual ICollection<Sistema> Sistemas { get; set; } = new List<Sistema>();
 }
