@@ -12,4 +12,8 @@
     <Folder Include="Pesistence/Configurations/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TechAdvocacia.Core\TechAdvocacia.Core.csproj" />
+  </ItemGroup>
+
 </Project>
