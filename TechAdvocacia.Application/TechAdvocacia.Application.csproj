@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="InputModel/" />
+    <Folder Include="Services/" />
+    <Folder Include="Services/Interfaces/" />
+    <Folder Include="ViewModel/" />
+  </ItemGroup>
+
 </Project>
