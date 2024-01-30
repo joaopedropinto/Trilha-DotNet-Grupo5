@@ -1,8 +1,8 @@
 namespace TechAdvocacia.Application.InputModels
 {
-    public class LawyerInputModel
+    public class NewDocumentInputModel
     {
-        public string Nome { get; set; }
+        public required int LegalCaseId { get; set; }
         // public string Cpf { get; set; }
     }
 }

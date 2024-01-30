@@ -10,5 +10,6 @@ public class LawyerConfigurations : IEntityTypeConfiguration<Lawyer>
       builder
          .ToTable("Lawyers")
          .HasKey(l => l.LawyerId);
+      
    }
 }

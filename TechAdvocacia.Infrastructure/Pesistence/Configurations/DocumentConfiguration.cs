@@ -10,5 +10,10 @@ public class DocumentConfigurations : IEntityTypeConfiguration<Document>
       builder
          .ToTable("Documents")
          .HasKey(d => d.DocumentId);
+      
+      builder
+         .HasOne(d => d.LegalCase)
+         .WithMany(lc => lc.Documents)
+         .HasForeignKey(d => d.LegalCaseId);
    }
 }

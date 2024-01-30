@@ -1,8 +1,8 @@
 namespace TechAdvocacia.Application.InputModels
 {
-    public class ClientInputModel
+    public class NewClientInputModel
     {
-        public string Nome { get; set; }
+        public string? Name { get; set; }
         // public string Cpf { get; set; }
     }
 }
