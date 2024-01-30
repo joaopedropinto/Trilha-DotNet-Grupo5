@@ -1,14 +1,6 @@
-## Projeto de Gestão de Ordem de Serviço
+## Tarefa de Escritório de Advocacia
 
-O objetivo deste projeto é implementar um sistema de Gestão de Ordem de Serviço para uma assistência técnica especializada em reparos de hardware. A abrangência inclui serviços para placa mãe, placa de vídeo, computadores, notebooks e vídeo games.
-
-### Motivação
-
-A escolha desse tema é fundamentada na crescente demanda por serviços de reparo técnico nesses dispositivos. A eficiente administração desses serviços é crucial para a eficácia operacional da assistência, proporcionando uma gestão mais eficaz e melhorando a experiência do cliente.
-
-### Relevância do Projeto
-
-A implementação deste sistema visa otimizar os processos internos da assistência técnica, proporcionando uma administração mais eficiente dos serviços prestados. Desta forma, o projeto busca atender às necessidades do mercado, promovendo a excelência na prestação de serviços de reparo e manutenção.
+O objetivo desta tarefa é implementar um sistema de gerenciamento escritório Tech Advocacia proposto utilizando conceitos de Clean Architecture com o Entity Framework.
 
 ### Autores
 
