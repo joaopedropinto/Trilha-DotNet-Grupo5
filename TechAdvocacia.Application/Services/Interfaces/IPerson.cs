@@ -1,0 +1,1 @@
+namespace TechAdvocacia.Core.Entit

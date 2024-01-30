@@ -13,4 +13,9 @@
     <Folder Include="ViewModel/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TechAdvocacia.Infrastructure\TechAdvocacia.Infrastructure.csproj" />
+    <ProjectReference Include="..\TechAdvocacia.Core\TechAdvocacia.Core.csproj" />
+  </ItemGroup>
+
 </Project>
