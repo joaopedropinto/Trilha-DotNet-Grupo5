@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Pesistence/" />
     <Folder Include="Pesistence/Interfaces/" />
+    <Folder Include="Pesistence/Configurations/" />
   </ItemGroup>
 
 </Project>
