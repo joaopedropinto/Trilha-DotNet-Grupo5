@@ -19,7 +19,7 @@ public class LegalCaseService : ILegalCaseService
     private readonly TechAdvocaciaDbContext _context;
    private readonly ILawyerService _lawyerService;
    private readonly IClientService _clientService;
-   public LegalCaseService (TechAdvocaciaDbContext context, ILawyerService lawyerService, IClientService clientService) : base(context)
+   public LegalCaseService (TechAdvocaciaDbContext context, ILawyerService lawyerService, IClientService clientService) 
    {
         _context = context;
         _lawyerService = lawyerService;
@@ -47,8 +47,66 @@ public class LegalCaseService : ILegalCaseService
     }
 
     public LegalCaseViewModel? GetById(int id){
-        
+        return _context.LegalCases
+            .Where(l => l.LegalCaseId == id)
+            .Select(l => new LegalCaseViewModel
+            {
+                LegalCaseId = l.LegalCaseId,
+                Lawyer = _lawyerService.GetById(l.LawyerId),
+                Client = _clientService.GetById(l.ClientId),
+            })
+            .FirstOrDefault();        
     }
-}
+
+    public List<LegalCaseViewModel> GetByLawyerId(int lawyerId){
+        return _context.LegalCases
+            .Where(l => l.LawyerId == lawyerId)
+            .Select(l => new LegalCaseViewModel
+            {
+                LegalCaseId = l.LegalCaseId,
+                Lawyer = _lawyerService.GetById(l.LawyerId),
+                Client = _clientService.GetById(l.ClientId),
+            })
+            .ToList();        
     }
+
+    public List<LegalCaseViewModel> GetByClientId(int clientId){
+        return _context.LegalCases
+            .Where(l => l.ClientId == clientId)
+            .Select(l => new LegalCaseViewModel
+            {
+                LegalCaseId = l.LegalCaseId,
+                Lawyer = _lawyerService.GetById(l.LawyerId),
+                Client = _clientService.GetById(l.ClientId),
+            })
+            .ToList();        
+    }
+
+    public int Create(NewLegalCaseInputModel legalCase)
+    {
+        var lawyer = _lawyerService.GetById(legalCase.LawyerId);
+        var client = _clientService.GetById(legalCase.ClientId);
+
+        if (lawyer == null)
+        {
+            throw new LawyerNotFoundException();
+        }
+
+        if (client == null)
+        {
+            throw new ClientNotFoundException();
+        }
+
+        var newLegalCase = new LegalCase
+        {
+            LawyerId = legalCase.LawyerId,
+            ClientId = legalCase.ClientId,
+        };
+
+        _context.LegalCases.Add(newLegalCase);
+        _context.SaveChanges();
+
+        return newLegalCase.LegalCaseId;
+    }
+    
 }

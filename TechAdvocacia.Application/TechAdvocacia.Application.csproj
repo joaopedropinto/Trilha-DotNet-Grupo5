@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InputModel/" />
+    <Folder Include="InputModels/" />
     <Folder Include="Services/" />
     <Folder Include="Services/Interfaces/" />
-    <Folder Include="ViewModel/" />
+    <Folder Include="ViewModels/" />
   </ItemGroup>
 
   <ItemGroup>
