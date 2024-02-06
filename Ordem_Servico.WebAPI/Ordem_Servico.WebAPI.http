@@ -1,0 +1,6 @@
+@Ordem_Servico.WebAPI_HostAddress = http://localhost:5157
+
+GET {{Ordem_Servico.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

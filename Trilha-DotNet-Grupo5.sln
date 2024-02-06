@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.Domain", "Ord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.Infra", "Ordem_Servico.Infra\Ordem_Servico.Infra.csproj", "{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordem_Servico.WebAPI", "Ordem_Servico.WebAPI\Ordem_Servico.WebAPI.csproj", "{523D02BD-B62F-4BD6-997D-D6FA932117A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6F53B11-B8A1-4690-BABD-8E8EEAA6F939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523D02BD-B62F-4BD6-997D-D6FA932117A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523D02BD-B62F-4BD6-997D-D6FA932117A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523D02BD-B62F-4BD6-997D-D6FA932117A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523D02BD-B62F-4BD6-997D-D6FA932117A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
