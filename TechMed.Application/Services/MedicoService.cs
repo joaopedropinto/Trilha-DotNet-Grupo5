@@ -1,96 +1,100 @@
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.InputModels;
 using TechMed.Application.ViewModels;
-using TechMed.Infrastructure.Persistence.Interfaces;
 using TechMed.Core.Entities;
+using TechMed.Infrastructure.Persistence;
 using TechMed.Core.Exceptions;
 
 namespace TechMed.Application.Services;
 public class MedicoService : IMedicoService
 {
-  private readonly ITechMedContext _context;
-  public MedicoService(ITechMedContext context)
-  {
-    _context = context;
-  }
-
-  public int Create(NewMedicoInputModel medico)
-  {
-    return _context.MedicosCollection.Create(new Medico
+    private readonly TechMedDbContext _context;
+    public MedicoService(TechMedDbContext context)
     {
-      Nome = medico.Nome,
-      CRM = medico.CRM,
-      CPF = medico.CPF
-    });
+        _context = context;
+    }
 
-  }
-
-  public int CreateAtendimento(int medicoId, NewAtendimentoInputModel atendimento)
-  {
-    var medico = _context.MedicosCollection.GetById(medicoId);
-    if (medico is null)
-      throw new MedicoNotFoundException();
-
-    var paciente = _context.PacientesCollection.GetById(atendimento.PacienteId);
-    if (paciente is null)
-      throw new PacienteNotFoundException();
-
-    return _context.AtendimentosCollection.Create(new Atendimento
+    private Medico GetByDbId(int id)
     {
-      DataHora = atendimento.DataHora,
-      Medico = medico,
-      Paciente = paciente
-    });
-  }
+        var _medico = _context.Medicos.Find(id);
 
-  public void Delete(int id)
-  {
-    _context.MedicosCollection.Delete(id);
-  }
+        if (_medico is null)
+            throw new MedicoNotFoundException();
+        
+        return _medico;
+    }
 
-  public List<MedicoViewModel> GetAll()
-  {
-    var medicos = _context.MedicosCollection.GetAll().Select(m => new MedicoViewModel
+    public int Create(NewMedicoInputModel medico)
     {
-      MedicoId = m.MedicoId,
-      Nome = m.Nome,
-      CRM = m.CRM,
-      CPF = m.CPF
-    }).ToList();
+        var _medico = new Medico
+        {
+            Name = medico.Name
+        };
+        _context.Medicos.Add(_medico);
 
-    return medicos;
+        _context.SaveChanges();
 
-  }
+        return _medico.MedicoId;
+    }
 
-  public MedicoViewModel? GetByCrm(string crm)
-  {
-    throw new NotImplementedException();
-  }
-
-  public MedicoViewModel? GetById(int id)
-  {
-    var medico = _context.MedicosCollection.GetById(id);
-
-    if (medico is null)
-      return null;
-
-    var MedicoViewModel = new MedicoViewModel
+    public int CreateAtendimento(int MedicoId, NewAtendimentoInputModel atendimento)
     {
-      MedicoId = medico.MedicoId,
-      Nome = medico.Nome,
-      CRM = medico.CRM,
-      CPF = medico.CPF
-    };
-    return MedicoViewModel;
-  }
+        var _atendimento = new Atendimento
+        {
+            Opening = atendimento.Opening,
+            Medico = GetByDbId(MedicoId),
+            Client = _context.Clients.Find(atendimento.ClientId),
+            SuccessProbability = 1.0f
+        };
+        _context.atendimentos.Add(_atendimento);
+        _context.SaveChanges();
 
-  public void Update(int id, NewMedicoInputModel medico)
-  {
-    _context.MedicosCollection.Update(id, new Medico
+        return _atendimento.AtendimentoId;
+    }
+
+    public void Delete(int id)
     {
-      Nome = medico.Nome,
-      CRM = medico.CRM,
-      CPF = medico.CPF
-    });
-  }
+        _context.Medico.Remove(GetByDbId(id));
+
+        _context.SaveChanges();
+    }
+
+    public List<MedicoViewModel> GetAll()
+    {
+        var _medicos = _context.Medicos.Select(m => new MedicoViewModel
+        {
+            MedicoId = m.MedicoId,
+            Name = m.Name
+        }).ToList();
+
+        return _medicos;
+    }
+
+    public MedicoViewModel? GetByCna(string cna)
+    {
+        throw new NotImplementedException();
+    }
+
+    public MedicoViewModel? GetById(int id)
+    {
+        var _medico = GetByDbId(id);
+
+        var MedicoViewModel = new MedicoViewModel
+        {
+            MedicoId = _medico.MedicoId,
+            Name = _medico.Name
+        };
+        return MedicoViewModel;
+    }
+
+    public void Update(int id, NewMedicoInputModel medico)
+    {
+        var _medico = GetByDbId(id);
+
+        _medico.Name = medico.Name;
+
+        _context.Medico.Update(_medico);
+
+        _context.SaveChanges();
+    }
 }

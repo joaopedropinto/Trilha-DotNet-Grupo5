@@ -1,78 +1,112 @@
 using TechMed.Application.InputModels;
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.ViewModels;
+using TechMed.Core.Entities;
 using TechMed.Core.Exceptions;
-using TechMed.Infrastructure.Persistence.Interfaces;
+using TechMed.Infrastructure.Persistence;
 
 namespace TechMed.Application.Services;
-public class AtendimentoService : BaseService, IAtendimentoService
+/* public interface IAtendimentoService
 {
-   private readonly IMedicoService _medicoService;
+   public List<AtendimentoViewModel> GetAll();
+   public AtendimentoViewModel? GetById(int id);
+   public List<AtendimentoViewModel> GetByLawyerId(int lawyerId);
+   public List<AtendimentoViewModel> GetByClientId(int clientId);
+   public int Create(NewLegalCaseInputModel legalCase);
+} */
+public class AtendimentoService : IAtendimentoService
+{
+    private readonly TechMedDbContext _context;
+   private readonly IMedicoService _medicos;
    private readonly IPacienteService _pacienteService;
-   public AtendimentoService(ITechMedContext context, IMedicoService medicoService, IPacienteService pacienteService) : base(context)
+   public AtendimentoService (TechMedDbContext context, IMedicoService lawyerService, IPacienteService clientService) 
    {
-      _medicoService = medicoService;
-      _pacienteService = pacienteService;
-   }
-   public int Create(NewAtendimentoInputModel atendimento)
-   {
-      return _medicoService.CreateAtendimento(atendimento.MedicoId, atendimento);
-   }
-   public List<AtendimentoViewModel> GetAll()
-   {
-      return _context.AtendimentosCollection.GetAll().Select(a => new AtendimentoViewModel
-      {
-         AtendimentoId = a.AtendimentoId,
-         DataHora = a.DataHora,
-         SuspeitaInicial = a.Suspeitaicial,
-         DataHoraFim = a.DataHoraFim,
-         Diagnostico = a.Diagnostico,
-         Medico = new MedicoViewModel
-         {
-            MedicoId = a.Medico.MedicoId,
-            Nome = a.Medico.Nome,
-            CRM = a.Medico.CRM,
-            CPF = a.Medico.CPF
-         },
-         Paciente = new PacienteViewModel
-         {
-            PacienteId = a.Paciente.PacienteId,
-            Nome = a.Paciente.Nome,
-            CPF = a.Paciente.CPF
-         }
-      }).ToList();
+        _context = context;
+        _medicos = lawyerService;
+        _pacienteService = clientService;
    }
 
-   public AtendimentoViewModel? GetById(int id)
-   {
-      var atendimentoDB = _context.AtendimentosCollection.GetById(id);
-      if (atendimentoDB is null)
-         throw new AtendimentoNotFoundException();
-      
-      var medicoVM = _medicoService.GetById(atendimentoDB.Medico.MedicoId);
-      var pacienteVM = _pacienteService.GetById(atendimentoDB.Paciente.PacienteId);
-      
-      if (medicoVM is null || pacienteVM is null)
-         return null;
-
-      return new AtendimentoViewModel{
-         AtendimentoId = atendimentoDB.AtendimentoId,
-         DataHora = atendimentoDB.DataHora,
-         SuspeitaInicial = atendimentoDB.Suspeitaicial,
-         DataHoraFim = atendimentoDB.DataHoraFim,
-         Diagnostico = atendimentoDB.Diagnostico,
-         Medico = medicoVM,
-         Paciente = pacienteVM
-      };
-      
-   }
-    public List<AtendimentoViewModel> GetByMedicoId(int medicoId)
+    public List<AtendimentoViewModel> GetAll()
     {
-        throw new NotImplementedException();
+        var atendimentos = _context.LegalCases.ToList();
+
+        var legalCasesViewModel = new List<AtendimentoViewModel>();
+
+        foreach (var atendimento in atendimentos)
+        {
+            var AtendimentoViewModel = new AtendimentoViewModel
+            {
+                AtendimentoId = atendimento.AtendimentoId,
+                Medico = _medicoService.GetById(atendimento.LawyerId),
+                Paciente = _pacienteService.GetById(atendimento.ClientId),
+            };
+            legalCasesViewModel.Add(AtendimentoViewModel);
+        }
+
+        return legalCasesViewModel;
     }
 
-    public List<AtendimentoViewModel> GetByPacienteId(int pacienteId)
-    {
-        throw new NotImplementedException();
+    public AtendimentoViewModel? GetById(int id){
+        return _context.Atendimentos
+            .Where(l => l.AtendimentoId == id)
+            .Select(l => new AtendimentoViewModel
+            {
+                AtendimentoId = l.AtendimentoId,
+                Medico = _medicos.GetById(l.medicoId),
+                Paciente = _pacienteService.GetById(l.PacienteId),
+            })
+            .FirstOrDefault();        
     }
+
+    public List<AtendimentoViewModel> GetByMedicoId(int MedicoId){
+        return _context.Atendimentos
+            .Where(l => l.M == MedicoId)
+            .Select(l => new AtendimentoViewModel
+            {
+                AtendimentoId = l.AtendimentoId,
+                Medico = _medicoService.GetById(l.MedicoId),
+                Paciente = _pacienteService.GetById(l.PacienteId),
+            })
+            .ToList();        
+    }
+
+    public List<AtendimentoViewModel> GetByPacienteId(int pacienteId){
+        return _context.Atendimentos
+            .Where(l => l.ClientId == pacienteId)
+            .Select(l => new AtendimentoViewModel
+            {
+                AtendimentoId = l.AtendimentoId,
+                Medico = _medicos.GetById(l.MedicoId),
+                Paciente = _pacienteService.GetById(l.PacienteId),
+            })
+            .ToList();        
+    }
+
+    public int Create(NewAtemdimentoInputModel atendimento)
+    {
+        var medico = _medicos.GetById(atendimento.MedicoId);
+        var paciente = _pacienteService.GetById(atendimento.pacienteId);
+
+        if (medico == null)
+        {
+            throw new MedicoNotFoundException();
+        }
+
+        if (paciente == null)
+        {
+            throw new PacienteNotFoundException();
+        }
+
+        var newAtendimento = new Atendimento
+        {
+            MedicoId = atendimento.LawyerId,
+            PacienteId = atendimento.ClientId,
+        };
+
+        _context.Atendimentos.Add(newAtendimento);
+        _context.SaveChanges();
+
+        return newAtendimento.AtendimentoId;
+    }
+    
 }

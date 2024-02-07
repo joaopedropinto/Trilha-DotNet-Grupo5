@@ -8,81 +8,67 @@ using TechMed.Core.Exceptions;
 namespace TechMed.Application.Services;
 public class PacienteService : IPacienteService
 {
-    private readonly TechMedDbContext _context;
-    public PacienteService(TechMedDbContext context)
-    {
-        _context = context;
+    private readonly TechMedDbContext _dbcontext;
+    public PacienteService(TechMedDbContext dbcontext){
+        _dbcontext = dbcontext;
     }
-
-    private Paciente GetByDbId(int id)
-    {
-        var _paciente = _context.Pacientes.Find(id);
-
+    private Paciente GetByDbId(int id){
+        var _paciente = _dbcontext.Pacientes.Find(id);
         if (_paciente is null)
             throw new PacienteNotFoundException();
         
         return _paciente;
     }
-
-    public int Create(NewPacienteInputModel medico)
+    public int Create(NewPacienteInputModel paciente)
     {
         var _paciente = new Paciente
         {
-            Nome = medico.Nome,
-            CPF = medico.CPF,
-            DataNascimento = medico.DataNascimento
+            Name = paciente.Name
         };
-        _context.Pacientes.Add(_paciente);
+        _dbcontext.Pacientes.Add(_paciente);
 
-        _context.SaveChanges();
+        _dbcontext.SaveChanges();
 
         return _paciente.PacienteId;
     }
 
     public void Delete(int id)
     {
-        _context.Pacientes.Remove(GetByDbId(id));
+        var _paciente = GetByDbId(id);
 
-        _context.SaveChanges();
+        _dbcontext.pacientes.Remove(_paciente);
+
+        _dbcontext.SaveChanges();
     }
 
     public List<PacienteViewModel> GetAll()
     {
-        var _pacientes = _context.Pacientes.Select(m => new PacienteViewModel
-        {
-            PacienteId = m.PacienteId,
-            Nome = m.Nome,
-            CPF = m.CPF,
-            DataNascimento = m.DataNascimento
-        }).ToList();
+        var _pacientes = _dbcontext.Pacientes.ToList();
 
-        return _pacientes;
+        return _pacientes.Select(c => new PacienteViewModel(){
+            PacienteId = c.PacienteId,
+            Name = c.Name
+        }).ToList();
     }
 
     public PacienteViewModel? GetById(int id)
     {
         var _paciente = GetByDbId(id);
 
-        var PacienteViewModel = new PacienteViewModel
-        {
+        return new PacienteViewModel(){
             PacienteId = _paciente.PacienteId,
-            Nome = _paciente.Nome,
-            CPF = _paciente.CPF,
-            DataNascimento = _paciente.DataNascimento
+            Name = _paciente.Name
         };
-        return PacienteViewModel;
     }
 
-    public void Update(int id, NewPacienteInputModel medico)
+    public void Update(int id, NewPacienteInputModel paciente)
     {
         var _paciente = GetByDbId(id);
 
-        _paciente.Nome = medico.Nome;
-        _paciente.CPF = medico.CPF;
-        _paciente.DataNascimento = medico.DataNascimento;
+        _paciente.Name = paciente.Name;
 
-        _context.Pacientes.Update(_paciente);
+        _dbcontext.pacientes.Update(_paciente);
 
-        _context.SaveChanges();
+        _dbcontext.SaveChanges();
     }
 }
