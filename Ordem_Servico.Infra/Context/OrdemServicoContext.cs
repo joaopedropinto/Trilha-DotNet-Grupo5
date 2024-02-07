@@ -39,12 +39,12 @@ public class OrdemServicoContext : DbContext
         
         modelBuilder.Entity<OrdemServico>()
             .HasOne(o => o.Cliente)
-            .WithMany(c => c.OrdemServico)
+            .WithMany(c => c.OrdemServicos)
             .HasForeignKey(o => o.ClienteID);
         
         modelBuilder.Entity<OrdemServico>()
             .HasOne(o => o.Tecnico)
-            .WithMany(t => t.OrdemServico)
+            .WithMany(t => t.OrdemServicos)
             .HasForeignKey(o => o.TecnicoID);
 
         modelBuilder.Entity<OrdemServico>()

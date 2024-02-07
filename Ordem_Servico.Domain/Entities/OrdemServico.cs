@@ -1,5 +1,4 @@
 namespace Ordem_Servico.Domain;
-
 public class OrdemServico
 {
     public int OrdemServicoID { get; set; }
