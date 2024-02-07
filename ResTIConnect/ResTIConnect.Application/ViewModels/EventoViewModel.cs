@@ -1,6 +1,6 @@
-﻿namespace ResTIConnect.Domain.Entities;
-
-public class Evento
+using ResTIConnect.Application.ViewModels;
+namespace ResTIConnect.Application.ViewModels;
+public class EventoViewModel
 {
     public int EventoId { get; set; }
     public string? Tipo { get; set; }
@@ -8,5 +8,5 @@ public class Evento
     public string? Codigo { get; set; }
     public string? Conteudo { get; set; }
     public DateTimeOffset DataHoraOcorrencia { get; set; }
-    public virtual ICollection<Sistema> Sistemas { get; set; } = new List<Sistema>();
+    public virtual ICollection<SistemaViewModel> Sistemas { get; set; } = new List<SistemaViewModel>();
 }

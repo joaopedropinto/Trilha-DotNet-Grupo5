@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResTIConnect.Domain;
+using ResTIConnect.Domain.Entities;
 
-namespace ResTIConnect.Infra;
+namespace ResTIConnect.Infra.Context;
 
 public class ResTIConnectContext : DbContext
 {

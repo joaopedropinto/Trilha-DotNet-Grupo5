@@ -1,6 +1,6 @@
-﻿namespace ResTIConnect.Domain.Entities;
-
-public class Sistema
+using ResTIConnect.Application.ViewModels;
+namespace ResTIConnect.Application.ViewModels;
+public class SistemaViewModel
 {
     public int Sistemald { get; set; }
     public string? Descricao { get; set; }
@@ -10,6 +10,6 @@ public class Sistema
     public string? Protocolo { get; set; }
     public DateTimeOffset DataHoraInicioIntegracao { get; set; }
     public string? Status { get; set; }
-    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
-    public virtual ICollection<Evento> Eventos { get; set; } = new List<Evento>();
+    public virtual ICollection<UsuarioViewModel> Usuarios { get; set; } = new List<UsuarioViewModel>();
+    public virtual ICollection<EventoViewModel> Eventos { get; set; } = new List<EventoViewModel>();
 }

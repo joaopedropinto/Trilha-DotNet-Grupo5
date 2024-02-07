@@ -1,8 +1,6 @@
-﻿namespace ResTIConnect.Domain.Entities;
-
-public class Log
+namespace ResTIConnect.Application.InputModels;
+public class NewLogInputModel
 {
-    public int LogId { get; set; }
     public string? Tipo { get; set; }
     public string? Descricao { get; set; }
     public DateTime DataHoraEvento { get; set; }
