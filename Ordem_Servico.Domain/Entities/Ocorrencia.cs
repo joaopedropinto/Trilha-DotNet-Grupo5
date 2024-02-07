@@ -6,5 +6,5 @@ public class Ocorrencia
     public required string Descricao { get; set; }
     public string? Situacao { get; set; }
     public DateTime DataHora { get; set; }
-    public ICollection<OrdemServico>? OrdemServicos { get; set; }
+    public ICollection<OrdemServico>? OrdemServicos { get; }
 }

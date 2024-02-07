@@ -6,6 +6,5 @@ public class Tecnico
     public string? Especialidade { get; set; }
     public string? Telefone { get; set; }
     public string? Email { get; set; }
-    public ICollection<OrdemServico>? OrdemServico {get; set;}
-    public int OrdemServicoID { get; set; }
+    public ICollection<OrdemServico>? OrdemServicos { get; }
 }

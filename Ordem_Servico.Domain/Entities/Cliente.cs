@@ -12,6 +12,5 @@ namespace Ordem_Servico.Domain
         public string? Email { get; set; }
         public string? Endereco { get; set; }
         public ICollection<OrdemServico>? OrdemServicos { get; }
-        public int OrdemServicoID { get; }
     }
 }
