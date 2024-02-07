@@ -10,13 +10,10 @@ A escolha desse tema é fundamentada na crescente demanda por serviços de repar
 
 A implementação deste sistema visa otimizar os processos internos da assistência técnica, proporcionando uma administração mais eficiente dos serviços prestados. Desta forma, o projeto busca atender às necessidades do mercado, promovendo a excelência na prestação de serviços de reparo e manutenção.
 
-### Autores
+### Endpoints do Projeto
 
-| [<img src="https://avatars.githubusercontent.com/u/84890636?v=4" width=115><br><sub>Daniel Penedo</sub>](https://github.com/DanielPenedo97?tab=repositories) |  [<img src="https://avatars.githubusercontent.com/u/32523778?v=4" width=115><br><sub>João Pedro</sub>](https://github.com/joaopedropinto) |  [<img src="https://avatars.githubusercontent.com/u/76014751?v=4" width=115><br><sub>Kayque Piton</sub>](https://github.com/kayquepiton) | [<img src="https://avatars.githubusercontent.com/u/34558728?v=4" width=115><br><sub>Jhonata Araújo</sub>](https://github.com/DStalkerBR) | [<img src="https://avatars.githubusercontent.com/u/32984720?v=4" width=115><br><sub>Valber Francisco dos Santos</sub>](https://github.com/ValberF) |
-| :---: | :---: | :---: | :---: | :---: |
+Endpoints iniciais que compõem este sistema de Gestão de Ordem de Serviço.
 
-
-## Endpoints do Projeto
 
 1. **Ordem de Serviço (OS):**
    - `GET /ordens-servico`: Lista todas as ordens de serviço.
@@ -65,20 +62,7 @@ A implementação deste sistema visa otimizar os processos internos da assistên
    - `PUT /servicos/{id}`: Atualiza um serviço existente.
    - `DELETE /servicos/{id}`: Exclui um serviço.
 
-## Controllers 
+### Autores
 
-1. **OrdemServicoController:**
-   - Responsável por endpoints relacionados a ordens de serviço.
-
-2. **ClienteController:**
-   - Lida com operações relacionadas aos clientes.
-
-3. **TecnicoController:**
-   - Gerencia operações relacionadas aos técnicos.
-
-4. **EquipamentoController:**
-   - Trata operações envolvendo equipamentos.
-
-5. **ServicoController:**
-   - Operações associadas aos serviços padrões.
-
+| [<img src="https://avatars.githubusercontent.com/u/84890636?v=4" width=115><br><sub>Daniel Penedo</sub>](https://github.com/DanielPenedo97?tab=repositories) |  [<img src="https://avatars.githubusercontent.com/u/32523778?v=4" width=115><br><sub>João Pedro</sub>](https://github.com/joaopedropinto) |  [<img src="https://avatars.githubusercontent.com/u/76014751?v=4" width=115><br><sub>Kayque Piton</sub>](https://github.com/kayquepiton) | [<img src="https://avatars.githubusercontent.com/u/34558728?v=4" width=115><br><sub>Jhonata Araújo</sub>](https://github.com/DStalkerBR) | [<img src="https://avatars.githubusercontent.com/u/32984720?v=4" width=115><br><sub>Valber Francisco dos Santos</sub>](https://github.com/ValberF) |
+| :---: | :---: | :---: | :---: | :---: |
