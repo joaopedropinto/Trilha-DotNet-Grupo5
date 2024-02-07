@@ -8,6 +8,7 @@ public interface IMedicoService
       public List<MedicoViewModel> GetAll();
       public MedicoViewModel? GetById(int id);
       public MedicoViewModel? GetByCrm(string crm);
+      public MedicoViewModel? GetByCpf(string cpf);
       public int Create(NewMedicoInputModel medico);
       public int CreateAtendimento(int medicoId,NewAtendimentoInputModel atendimento);
       public void Update(int id, NewMedicoInputModel medico);
