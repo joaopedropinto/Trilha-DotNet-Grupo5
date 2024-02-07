@@ -9,5 +9,5 @@ public class Equipamento
     public string? DadosAdicionais { get; set; }
     public required string DefeitoDeclarado { get; set; }
     public string? Solucao { get; set; }
-    public ICollection<OrdemServico>? OrdemServicos { get; set; }
+    public ICollection<OrdemServico>? OrdemServicos { get; }
 }
