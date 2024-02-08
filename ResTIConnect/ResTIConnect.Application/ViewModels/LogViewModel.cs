@@ -1,6 +1,6 @@
-﻿namespace ResTIConnect.Domain.Entities;
-
-public class Log
+using ResTIConnect.Application.ViewModels;
+namespace ResTIConnect.Application.ViewModels;
+public class LogViewModel
 {
     public int LogId { get; set; }
     public string? Tipo { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace ResTIConnect.Domain;
+﻿namespace ResTIConnect.Domain.Entities;
 
 public class Usuario
 {
