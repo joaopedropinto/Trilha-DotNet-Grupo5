@@ -3,7 +3,7 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Domain.Entities;
 using ResTIConnect.Infra.Context;
-//using ResTIConnect.Domain.Exceptions;
+using ResTIConnect.Domain.Exceptions;
 
 namespace ResTIConnect.Application.Services;
 public class SistemaService : ISistemaService
@@ -18,7 +18,7 @@ public class SistemaService : ISistemaService
         var _sistema = _dbcontext.Sistemas.Find(id);
         if (_sistema is null)
         {
-            throw new Exception();//fazer as exceptions pra adicionar aqui
+            throw new SistemaAlreadyExistsException();//fazer as exceptions pra adicionar aqui
         }
         return _sistema;
     }

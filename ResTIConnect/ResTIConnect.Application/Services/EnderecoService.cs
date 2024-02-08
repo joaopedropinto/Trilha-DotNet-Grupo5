@@ -3,7 +3,7 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Domain.Entities;
 using ResTIConnect.Infra.Context;
-//using ResTIConnect.Domain.Exceptions;
+using ResTIConnect.Domain.Exceptions;
 
 namespace ResTIConnect.Application.Services;
 public class EnderecoService : IEnderecoService
@@ -18,7 +18,7 @@ public class EnderecoService : IEnderecoService
         var _endereco = _dbcontext.Enderecos.Find(id);
         if (_endereco is null)
         {
-            throw new Exception();//fazer as exceptions pra adicionar aqui
+            throw new EnderecoNotFoundException();//fazer as exceptions pra adicionar aqui
         }
         return _endereco;
     }

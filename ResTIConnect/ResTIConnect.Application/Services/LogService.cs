@@ -3,7 +3,7 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Domain.Entities;
 using ResTIConnect.Infra.Context;
-//using ResTIConnect.Domain.Exceptions;
+using ResTIConnect.Domain.Exceptions;
 
 namespace ResTIConnect.Application.Services;
 public class LogService : ILogService
@@ -18,7 +18,7 @@ public class LogService : ILogService
         var _log = _dbcontext.Logs.Find(id);
         if (_log is null)
         {
-            throw new Exception();//fazer as exceptions pra adicionar aqui
+            throw new LogAlreadyExistsException();//fazer as exceptions pra adicionar aqui
         }
         return _log;
     }

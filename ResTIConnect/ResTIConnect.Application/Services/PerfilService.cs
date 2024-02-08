@@ -3,7 +3,7 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Domain.Entities;
 using ResTIConnect.Infra.Context;
-//using ResTIConnect.Domain.Exceptions;
+using ResTIConnect.Domain.Exceptions;
 
 namespace ResTIConnect.Application.Services;
 public class PerfilService : IPerfilService
@@ -18,7 +18,7 @@ public class PerfilService : IPerfilService
         var _perfil = _dbcontext.Perfis.Find(id);
         if (_perfil is null)
         {
-            throw new Exception();//fazer as exceptions pra adicionar aqui
+            throw new PerfilAlreadyExistsException();//fazer as exceptions pra adicionar aqui
         }
         return _perfil;
     }
