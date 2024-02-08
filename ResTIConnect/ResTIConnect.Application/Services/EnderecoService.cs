@@ -13,7 +13,7 @@ public class EnderecoService : IEnderecoService
     {
         _dbcontext = dbcontext;
     }
-    private Endereco GetById(int id)
+    private Endereco GetByDbId(int id)
     {
         var _endereco = _dbcontext.Enderecos.Find(id);
         if (_endereco is null)
@@ -44,7 +44,7 @@ public class EnderecoService : IEnderecoService
 
     public void Delete(int id)
     {
-        var _endereco = GetById(id);
+        var _endereco = GetByDbId(id);
         _dbcontext.Enderecos.Remove(_endereco);
         _dbcontext.SaveChanges();
     }
@@ -65,27 +65,29 @@ public class EnderecoService : IEnderecoService
             Pais = c.Pais
         }).ToList();
     }
-    // public EnderecoViewModel? GetById(int id){
+    public EnderecoViewModel? GetById(int id)
+    {
 
-    //     var _endereco = GetByDbId(id);
+        var _endereco = GetByDbId(id);
 
-    //     return new EnderecoViewModel(){
-    //         EnderecoId = _endereco.EnderecoId,
-    //         Numero = _endereco.Numero,
-    //         Cidade = _endereco.Cidade,
-    //         Complemento = _endereco.Complemento,
-    //         Bairro = _endereco.Bairro,
-    //         Estado = _endereco.Estado,
-    //         Cep = _endereco.Cep,
-    //         Pais = _endereco.Pais
-    //     };
-    // }
-    // precisa adicionar o GetByDbId pra poder usar esse método
+        return new EnderecoViewModel()
+        {
+            EnderecoId = _endereco.EnderecoId,
+            Numero = _endereco.Numero,
+            Cidade = _endereco.Cidade,
+            Complemento = _endereco.Complemento,
+            Bairro = _endereco.Bairro,
+            Estado = _endereco.Estado,
+            Cep = _endereco.Cep,
+            Pais = _endereco.Pais
+        };
+    }
 
-    // public void Update(int id, NewEnderecoInputModel _endereco){
-    //     var _endereco = GetByBdId(id);
-    //     _endereco.Logradouro = _endereco.Logradouro;
-    //     _dbcontext.Enderecos.Update(_endereco);
-    //     _dbcontext.SaveChanges();
-    // }
+    public void Update(int id, NewEnderecoInputModel endereco)
+    {
+        var _endereco = GetByDbId(id);
+        _endereco.Logradouro = endereco.Logradouro;
+        _dbcontext.Enderecos.Update(_endereco);
+        _dbcontext.SaveChanges();
+    }
 }
