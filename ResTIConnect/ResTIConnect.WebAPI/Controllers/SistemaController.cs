@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 
 namespace ResTIConnect.WebAPI.Controllers;
-    [ApiController]
-    [Route("/api/v0.1/")]
+[ApiController]
+[Route("/api/v0.1/")]
 
-public class SistemaController : ControllerBase{
+public class SistemaController : ControllerBase
+{
     private readonly ISistemaService _sistemaService;
     public List<SistemaViewModel> Sistemas => _sistemaService.GetAll();
     public SistemaController(ISistemaService service) => _sistemaService = service;
@@ -69,7 +70,7 @@ public class SistemaController : ControllerBase{
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpDelete("sistema/{id}")]
     public IActionResult Delete(int id)
     {

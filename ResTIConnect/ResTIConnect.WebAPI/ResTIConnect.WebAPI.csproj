@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ResTIConnect.Application\ResTIConnect.Application.csproj" />
+    <ProjectReference Include="..\ResTIConnect.Infra\ResTIConnect.Infra.csproj" />
   </ItemGroup>
 
 </Project>
