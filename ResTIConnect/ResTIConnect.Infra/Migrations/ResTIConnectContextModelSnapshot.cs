@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ResTIConnect.Infra;
+using ResTIConnect.Infra.Context;
 
 #nullable disable
 
@@ -218,7 +218,7 @@ namespace ResTIConnect.Infra.Migrations
 
                     b.HasIndex("SistemaId");
 
-                    b.ToTable("SistemaEvento");
+                    b.ToTable("SistemaEvento", (string)null);
                 });
 
             modelBuilder.Entity("SistemaUsuario", b =>
@@ -233,7 +233,7 @@ namespace ResTIConnect.Infra.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("SistemaUsuario");
+                    b.ToTable("SistemaUsuario", (string)null);
                 });
 
             modelBuilder.Entity("ResTIConnect.Domain.Endereco", b =>
