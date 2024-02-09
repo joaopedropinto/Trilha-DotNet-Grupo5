@@ -1,4 +1,3 @@
-using ResTIConnect.Application.ViewModels;
 namespace ResTIConnect.Application.ViewModels;
 public class LogViewModel
 {
