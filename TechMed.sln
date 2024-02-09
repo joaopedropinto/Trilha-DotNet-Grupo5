@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.Application", "TechMed.Application\TechMed.Application.csproj", "{C6E62B55-4D64-4352-AEB8-6E6904086902}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.Domain", "TechMed.Domain\TechMed.Domain.csproj", "{69801B71-EB3D-4F33-8B27-B4FC8A504348}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.WebAPI", "TechMed.WebAPI\TechMed.WebAPI.csproj", "{73191146-D6CA-467A-A527-7CE8ADFFAE3D}"
