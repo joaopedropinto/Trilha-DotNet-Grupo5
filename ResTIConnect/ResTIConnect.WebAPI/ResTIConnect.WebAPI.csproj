@@ -17,6 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ResTIConnect.Application\ResTIConnect.Application.csproj" />
+<<<<<<< HEAD
+=======
+    <ProjectReference Include="..\ResTIConnect.Infra\ResTIConnect.Infra.csproj" />
+>>>>>>> f12a150f3d3a493c8c6b03defeda2c7833d9f32a
   </ItemGroup>
 
 </Project>
