@@ -1,14 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using TechMed.Application.Auth;
 using TechMed.Application.Services;
 using TechMed.Application.Services.Interfaces;
-using TechMed.Infrastructure.Persistence;
-using TechMed.Infrastructure.Persistence.Interfaces;
+using TechMed.Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<ITechMedContext, TechMedContext>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IAtendimentoService, AtendimentoService>();
@@ -34,7 +31,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseMiddleware<SimpleAuthHandler>();
 }
 
 app.UseHttpsRedirection();
