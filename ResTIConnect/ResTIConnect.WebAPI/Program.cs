@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ResTIConnectContext>();
 
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
