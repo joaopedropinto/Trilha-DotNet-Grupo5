@@ -1,10 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.Domain", "TechMed.Domain\TechMed.Domain.csproj", "{69801B71-EB3D-4F33-8B27-B4FC8A504348}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.WebAPI", "TechMed.WebAPI\TechMed.WebAPI.csproj", "{73191146-D6CA-467A-A527-7CE8ADFFAE3D}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMed.Infrastructure", "TechMed.Infrastructure\TechMed.Infrastructure.csproj", "{52C7C78B-F97F-457E-8BC4-F532AD4396CB}"
 EndProject
 Global
@@ -17,6 +18,10 @@ Global
 		{69801B71-EB3D-4F33-8B27-B4FC8A504348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69801B71-EB3D-4F33-8B27-B4FC8A504348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69801B71-EB3D-4F33-8B27-B4FC8A504348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73191146-D6CA-467A-A527-7CE8ADFFAE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73191146-D6CA-467A-A527-7CE8ADFFAE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73191146-D6CA-467A-A527-7CE8ADFFAE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73191146-D6CA-467A-A527-7CE8ADFFAE3D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52C7C78B-F97F-457E-8BC4-F532AD4396CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52C7C78B-F97F-457E-8BC4-F532AD4396CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C7C78B-F97F-457E-8BC4-F532AD4396CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
