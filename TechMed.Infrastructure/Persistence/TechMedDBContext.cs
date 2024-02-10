@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TechMed.Domain.Entities;
 
-namespace TechMed.Infrastructure.Persistance;
+namespace TechMed.Infrastructure.Persistence;
 public class TechMedDbContext : DbContext
 {
    public DbSet<Medico> Medicos { get; set; }
