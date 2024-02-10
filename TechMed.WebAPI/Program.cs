@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TechMed.Application.Services;
 using TechMed.Application.Services.Interfaces;
-using TechMed.Infrastructure.Persistance;
+using TechMed.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
