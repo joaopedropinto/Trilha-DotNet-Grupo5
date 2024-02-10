@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TechMed.Infrastructure.Persistence.Interfaces;
-using TechMed.Core.Entities;
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.ViewModels;
 using TechMed.Application.InputModels;

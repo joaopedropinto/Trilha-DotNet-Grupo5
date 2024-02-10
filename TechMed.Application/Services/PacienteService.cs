@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TechMed.Application.InputModels;
 using TechMed.Application.ViewModels;
-using TechMed.Core.Entities;
+using TechMed.Domain.Entities;
 using TechMed.Infrastructure.Persistence;
-using TechMed.Core.Exceptions;
+using TechMed.Domain.Exceptions;
 using TechMed.Application.Services.Interfaces;
 
 namespace TechMed.Application.Services
@@ -19,7 +16,7 @@ namespace TechMed.Application.Services
             _dbContext = dbContext;
         }
 
-        private Paciente GetByDbId(int id)
+        public Paciente GetByDbId(int id)
         {
             var paciente = _dbContext.Pacientes.Find(id);
             if (paciente == null)
@@ -35,7 +32,8 @@ namespace TechMed.Application.Services
             return pacientes.Select(p => new PacienteViewModel()
             {
                 PacienteId = p.PacienteId,
-                Nome = p.Nome
+                Nome = p.Nome,
+                CPF = p.CPF 
             }).ToList();
         }
 
@@ -46,9 +44,11 @@ namespace TechMed.Application.Services
             return new PacienteViewModel()
             {
                 PacienteId = paciente.PacienteId,
-                Nome = paciente.Nome
+                Nome = paciente.Nome,
+                CPF = paciente.CPF
             };
         }
+
 
         public PacienteViewModel? GetByCpf(string cpf)
         {

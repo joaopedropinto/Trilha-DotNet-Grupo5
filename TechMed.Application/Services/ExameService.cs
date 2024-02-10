@@ -1,12 +1,9 @@
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.InputModels;
 using TechMed.Application.ViewModels;
-using TechMed.Core.Entities;
-using TechMed.Core.Exceptions;
+using TechMed.Domain.Entities;
+using TechMed.Domain.Exceptions;
 using TechMed.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TechMed.Application.Services
 {
@@ -24,7 +21,8 @@ namespace TechMed.Application.Services
             var exames = _dbContext.Exames.ToList();
             return exames.Select(e => new ExameViewModel
             {
-                ExameId = e.ExameId
+                ExameId = e.ExameId,
+                Nome = e.Nome
             }).ToList();
         }
 
@@ -34,7 +32,8 @@ namespace TechMed.Application.Services
             if (exame == null) return null;
             return new ExameViewModel
             {
-                ExameId = exame.ExameId
+                ExameId = exame.ExameId,
+                Nome = exame.Nome
             };
         }
 
