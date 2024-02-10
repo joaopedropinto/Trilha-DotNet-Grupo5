@@ -1,5 +1,5 @@
 namespace Ordem_Servico.Domain;
-public class OrdemServico
+public class OrdemServico : BaseEntity
 {
     public int OrdemServicoID { get; set; }
     public DateTime DataAbertura { get; set; }

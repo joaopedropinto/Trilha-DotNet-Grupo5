@@ -1,6 +1,6 @@
 ﻿namespace Ordem_Servico.Domain;
 
-public class Peca
+public class Peca : BaseEntity
 {
     public int PecaID { get; set; }
     public string? Tipo { get; set; }

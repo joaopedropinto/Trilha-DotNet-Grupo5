@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
+    <Folder Include="Persistance\" />
+    <Folder Include="Persistance\Configurations\" />
   </ItemGroup>
 
   <ItemGroup>
