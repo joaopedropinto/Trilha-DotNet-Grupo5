@@ -1,22 +1,21 @@
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.InputModels;
 using TechMed.Application.ViewModels;
-using TechMed.Core.Entities;
+using TechMed.Domain.Entities;
 using TechMed.Infrastructure.Persistence;
-using TechMed.Core.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using TechMed.Domain.Exceptions;
 
 namespace TechMed.Application.Services
 {
     public class MedicoService : IMedicoService
     {
         private readonly TechMedDbContext _context;
+        private readonly IPacienteService _pacienteService;
 
-        public MedicoService(TechMedDbContext context)
+        public MedicoService(TechMedDbContext context, IPacienteService pacienteService)
         {
             _context = context;
+            _pacienteService = pacienteService;
         }
 
         public List<MedicoViewModel> GetAll()
@@ -24,7 +23,7 @@ namespace TechMed.Application.Services
             var medicos = _context.Medicos.Select(m => new MedicoViewModel
             {
                 MedicoId = m.MedicoId,
-                Name = m.Name,
+                Nome = m.Nome,
                 CRM = m.CRM,
                 CPF = m.CPF
             }).ToList();
@@ -42,12 +41,21 @@ namespace TechMed.Application.Services
             var medicoViewModel = new MedicoViewModel
             {
                 MedicoId = medico.MedicoId,
-                Name = medico.Name,
+                Nome = medico.Nome,
                 CRM = medico.CRM,
                 CPF = medico.CPF
             };
 
             return medicoViewModel;
+        }
+
+        public Medico GetByDbId(int id)
+        {
+            var medico = _context.Medicos.Find(id);
+            if (medico == null)
+                throw new MedicoNotFoundException();
+
+            return medico;
         }
 
         public MedicoViewModel? GetByCrm(string crm)
@@ -60,7 +68,7 @@ namespace TechMed.Application.Services
             var medicoViewModel = new MedicoViewModel
             {
                 MedicoId = medico.MedicoId,
-                Name = medico.Name,
+                Nome = medico.Nome,
                 CRM = medico.CRM,
                 CPF = medico.CPF
             };
@@ -78,7 +86,7 @@ namespace TechMed.Application.Services
             var medicoViewModel = new MedicoViewModel
             {
                 MedicoId = medico.MedicoId,
-                Name = medico.Name,
+                Nome = medico.Nome,
                 CRM = medico.CRM,
                 CPF = medico.CPF
             };
@@ -90,7 +98,7 @@ namespace TechMed.Application.Services
         {
             var novoMedico = new Medico
             {
-                Name = medicoInput.Nome,
+                Nome = medicoInput.Nome,
                 CRM = medicoInput.CRM,
                 CPF = medicoInput.CPF
             };
@@ -112,10 +120,14 @@ namespace TechMed.Application.Services
 
             var novoAtendimento = new Atendimento
             {
-                Opening = atendimento.DataHora,
-                Medico = medico,
-                Client = _context.Clients.Find(atendimento.PacienteId),
-                SuccessProbability = 1.0f
+                DataHoraInicio = atendimento.DataHora,
+                SuspeitaInicial = atendimento.SuspeitaInicial,
+                DataHoraFim = atendimento.DataHoraFim,
+                Diagnostico = atendimento.Diagnostico,
+                PacienteId = atendimento.PacienteId,
+                MedicoId = medicoId,
+                Medico = GetByDbId(medicoId),
+                Paciente = _pacienteService.GetByDbId(atendimento.PacienteId)
             };
             _context.Atendimentos.Add(novoAtendimento);
             _context.SaveChanges();
@@ -125,14 +137,14 @@ namespace TechMed.Application.Services
 
         public void Update(int id, NewMedicoInputModel medicoInput)
         {
-            var medicoExistente = GetById(id);
+            var medicoExistente = GetByDbId(id);
 
             if (medicoExistente == null)
             {
                 throw new MedicoNotFoundException();
             }
 
-            medicoExistente.Name = medicoInput.Nome;
+            medicoExistente.Nome = medicoInput.Nome;
             medicoExistente.CRM = medicoInput.CRM;
             medicoExistente.CPF = medicoInput.CPF;
 
@@ -143,7 +155,7 @@ namespace TechMed.Application.Services
 
         public void Delete(int id)
         {
-            var medico = GetById(id);
+            var medico = GetByDbId(id);
 
             if (medico != null)
             {

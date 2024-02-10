@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using TechMed.Application.InputModels;
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.ViewModels;
-using TechMed.Core.Entities;
-using TechMed.Core.Exceptions;
+using TechMed.Domain.Entities;
+using TechMed.Domain.Exceptions;
 using TechMed.Infrastructure.Persistence;
 
 namespace TechMed.Application.Services
@@ -98,12 +96,14 @@ namespace TechMed.Application.Services
 
             var newAtendimento = new Atendimento
             {
-                DataHora = atendimento.DataHora,
+                DataHoraInicio = atendimento.DataHora,
                 SuspeitaInicial = atendimento.SuspeitaInicial,
                 DataHoraFim = atendimento.DataHoraFim,
                 Diagnostico = atendimento.Diagnostico,
                 PacienteId = atendimento.PacienteId,
-                MedicoId = atendimento.MedicoId
+                MedicoId = atendimento.MedicoId,
+                Medico = _medicoService.GetByDbId(atendimento.MedicoId),
+                Paciente = _pacienteService.GetByDbId(atendimento.PacienteId)
             };
 
             _context.Atendimentos.Add(newAtendimento);
