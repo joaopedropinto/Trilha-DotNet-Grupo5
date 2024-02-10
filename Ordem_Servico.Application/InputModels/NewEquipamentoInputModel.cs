@@ -1,13 +1,11 @@
-﻿namespace Ordem_Servico.Domain;
+﻿namespace Ordem_Servico.Application;
 
-public class Equipamento : BaseEntity
+public class NewEquipamentoInputModel
 {
-    public int EquipamentoID { get; set; }
     public required string Tipo { get; set; }
     public required string Marca { get; set; }
     public required string Modelo { get; set; }
     public required string DadosAdicionais { get; set; }
     public required string DefeitoDeclarado { get; set; }
-    public string? Solucao { get; set; }
-    public ICollection<OrdemServico>? OrdemServicos { get; }
+    public required string Solucao { get; set; }
 }

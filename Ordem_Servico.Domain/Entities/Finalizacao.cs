@@ -1,6 +1,6 @@
 namespace Ordem_Servico.Domain;
 
-public class Finalizacao
+public class Finalizacao : BaseEntity
 {
     public int FinalizacaoID { get; set; }
     public DateTime DataFinalizacao { get; set; }

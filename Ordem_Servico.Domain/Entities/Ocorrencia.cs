@@ -1,6 +1,6 @@
 ﻿namespace Ordem_Servico.Domain;
 
-public class Ocorrencia
+public class Ocorrencia : BaseEntity
 {
     public int OcorrenciaID { get; set; }
     public required string Descricao { get; set; }
