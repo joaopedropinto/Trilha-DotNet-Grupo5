@@ -19,6 +19,15 @@ public class AtendimentoController : ControllerBase
 
    }
 
+   [HttpGet("atendimento/porPeriodo/{inicio}/{fim}")]
+   public IActionResult GetByPeriod(DateTime inicio, DateTime fim)
+   {
+      var atendimentos = _atendimentoService.GetByPeriod(inicio, fim);
+      if (atendimentos is null)
+         return NoContent();
+      return Ok(atendimentos);
+   }
+
    [HttpPost("atendimento")]
    public IActionResult Post([FromBody] NewAtendimentoInputModel atendimento)
    {
