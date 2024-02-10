@@ -28,6 +28,15 @@ public class MedicoController : ControllerBase
       return Ok(medico);
    }
 
+   [HttpGet("medico/{id}/atendimentos")]
+   public IActionResult GetAtendimentos(int id)
+   {
+      var atendimentos = _medicoService.GetAtendimentos(id);
+      if (atendimentos is null)
+         return NoContent();
+      return Ok(atendimentos);
+   }
+
    [HttpPost("medico")]
    public IActionResult Post([FromBody] NewMedicoInputModel medico)
    {
