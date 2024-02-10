@@ -1,8 +1,9 @@
-﻿using Ordem_Servico.Domain;
+﻿using Ordem_Servico.Application.Services.Interfaces;
+using Ordem_Servico.Domain;
 
 namespace Ordem_Servico.Application.Services;
 
-public class ServicoService
+public class ServicoService : IServicoService
 {
     private readonly OrdemServicoContext _dbcontext;
     public ServicoService(OrdemServicoContext dbcontext)

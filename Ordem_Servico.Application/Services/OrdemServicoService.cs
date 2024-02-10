@@ -2,7 +2,7 @@
 using Ordem_Servico.Domain;
 namespace Ordem_Servico.Application.Services;
 
-public class OrdemServicoService
+public class OrdemServicoService : IOrdemServicoService
 {
     private readonly OrdemServicoContext _dbcontext;
     public OrdemServicoService(OrdemServicoContext dbcontext)
