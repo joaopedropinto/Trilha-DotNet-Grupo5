@@ -10,4 +10,5 @@ public interface IAtendimentoService
    public List<AtendimentoViewModel> GetByPacienteId(int pacienteId);
    public List<AtendimentoViewModel> GetByMedicoId(int medicoId);
    public int Create(NewAtendimentoInputModel atendimento);
+   public List<AtendimentoViewModel> GetByPeriod(DateTime inicio, DateTime fim);
 }

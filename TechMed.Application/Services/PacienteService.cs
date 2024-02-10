@@ -103,5 +103,34 @@ namespace TechMed.Application.Services
 
             _dbContext.SaveChanges();
         }
+
+        public List<AtendimentoViewModel> GetAtendimentos(int id)
+        {
+            var atendimentos = _dbContext.Atendimentos
+                .Where(a => a.PacienteId == id)
+                .Select(a => new AtendimentoViewModel
+                {
+                    AtendimentoId = a.AtendimentoId,
+                    DataHora = a.DataHoraInicio,
+                    SuspeitaInicial = a.SuspeitaInicial,
+                    DataHoraFim = a.DataHoraFim,
+                    Diagnostico = a.Diagnostico,
+                    Paciente = new PacienteViewModel
+                    {
+                        PacienteId = a.PacienteId,
+                        Nome = a.Paciente.Nome,
+                        CPF = a.Paciente.CPF
+                    },
+                    Medico = new MedicoViewModel
+                    {
+                        MedicoId = a.MedicoId,
+                        Nome = a.Medico.Nome,
+                        CRM = a.Medico.CRM,
+                        CPF = a.Medico.CPF
+                    }
+                }).ToList();
+
+            return atendimentos;
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace TechMed.Application.Services
                 var atendimentoViewModel = new AtendimentoViewModel
                 {
                     AtendimentoId = atendimento.AtendimentoId,
+                    DataHora = atendimento.DataHoraInicio,
+                    DataHoraFim = atendimento.DataHoraFim,
+                    SuspeitaInicial = atendimento.SuspeitaInicial,
+                    Diagnostico = atendimento.Diagnostico,
                     Medico = _medicoService.GetById(atendimento.MedicoId),
                     Paciente = _pacienteService.GetById(atendimento.PacienteId)
                 };
@@ -110,6 +114,23 @@ namespace TechMed.Application.Services
             _context.SaveChanges();
 
             return newAtendimento.AtendimentoId;
+        }
+
+        public List<AtendimentoViewModel> GetByPeriod(DateTime inicio, DateTime fim)
+        {
+            return _context.Atendimentos
+                .Where(a => a.DataHoraInicio >= inicio && a.DataHoraInicio <= fim)
+                .Select(a => new AtendimentoViewModel
+                {
+                    AtendimentoId = a.AtendimentoId,
+                    DataHora = a.DataHoraInicio,
+                    DataHoraFim = a.DataHoraFim,
+                    SuspeitaInicial = a.SuspeitaInicial,
+                    Diagnostico = a.Diagnostico,
+                    Medico = _medicoService.GetById(a.MedicoId),
+                    Paciente = _pacienteService.GetById(a.PacienteId)
+                })
+                .ToList();
         }
     }
 }

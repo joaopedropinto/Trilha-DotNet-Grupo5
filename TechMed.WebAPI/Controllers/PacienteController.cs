@@ -31,6 +31,15 @@ public class PacienteController : ControllerBase
       }
    }
 
+   [HttpGet("paciente/{id}/atendimentos")]
+   public IActionResult GetAtendimentos(int id)
+   {
+      var atendimentos = _pacienteService.GetAtendimentos(id);
+      if (atendimentos is null)
+         return NoContent();
+      return Ok(atendimentos);
+   }
+
    [HttpPost("paciente")]
    public IActionResult Post([FromBody] NewPacienteInputModel paciente)
    {

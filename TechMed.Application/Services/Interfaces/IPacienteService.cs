@@ -13,4 +13,5 @@ public interface IPacienteService
       public int Create(NewPacienteInputModel medico);
       public void Update(int id, NewPacienteInputModel medico);
       public void Delete(int id);
+      public List<AtendimentoViewModel> GetAtendimentos(int id);
 }
