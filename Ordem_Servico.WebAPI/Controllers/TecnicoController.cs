@@ -1,65 +1,74 @@
 using Microsoft.AspNetCore.Mvc;
-using Ordem_Servico.Domain;
+using Ordem_Servico.Application.ViewModels;
+using Ordem_Servico.Application.InputModels;
+using Ordem_Servico.Application.Services.Interfaces;
+using Ordem_Servico.Application;
 
-namespace Ordem_Servico.WebAPI.Controllers;
-
-[ApiController]
-[Route("/api/v0.1/")]
-public class TecnicoController : ControllerBase
+namespace Ordem_Servico.WebAPI.Controllers
 {
-    private static List<Tecnico> _tecnicos = new List<Tecnico>
+    [ApiController]
+    [Route("/api/v0.1/")]
+    public class TecnicoController : ControllerBase 
+    {
+        private readonly ITecnicoService _tecnicoService;
+        public List<TecnicoViewModel> Tecnicos => _tecnicoService.GetAll();
+        public TecnicoController(ITecnicoService service) => _tecnicoService = service;
+
+
+        [HttpGet("tecnicos")]
+        public IActionResult GetAll()
         {
-            new Tecnico { TecnicoID = 1, Nome = "Técnico 1" },
-            new Tecnico { TecnicoID = 2, Nome = "Técnico 2" },
-            new Tecnico { TecnicoID = 3, Nome = "Técnico 3" },
-            new Tecnico { TecnicoID = 4, Nome = "Técnico 4" },
-            new Tecnico { TecnicoID = 5, Nome = "Técnico 5" }
-        };
+            return Ok(_tecnicoService.GetAll());
+        }
 
-    [HttpGet("tecnicos")]
-    public IActionResult Get()
-    {
-        return Ok(_tecnicos);
-    }
+        [HttpGet("tecnicos/{id}")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                var tecnico = _tecnicoService.GetById(id);
+                return Ok(tecnico);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-    [HttpGet("tecnico/{id}")]
-    public IActionResult GetById(int id)
-    {
-        var tecnico = _tecnicos.FirstOrDefault(t => t.TecnicoID == id);
-        if (tecnico == null)
-            return NotFound();
+        [HttpPost("tecnicos")]
+        public IActionResult Create([FromBody] NewTecnicoInputModel tecnico)
+        {
+            var newTecnicoId = _tecnicoService.Create(tecnico);
+            var createdTecnico = _tecnicoService.GetById(newTecnicoId);
+            return CreatedAtAction(nameof(GetById), new { id = newTecnicoId }, createdTecnico);
+        }
 
-        return Ok(tecnico);
-    }
-
-    [HttpPost("tecnico")]
-    public IActionResult Post([FromBody] Tecnico tecnico)
-    {
-        tecnico.TecnicoID = _tecnicos.Count + 1;
-        _tecnicos.Add(tecnico);
-        return CreatedAtAction(nameof(GetById), new { id = tecnico.TecnicoID }, tecnico);
-
-    }
-
-    [HttpPut("tecnico/{id}")]
-    public IActionResult Put(int id, [FromBody] Tecnico tecnico)
-    {
-        var existingTecnico = _tecnicos.FirstOrDefault(t => t.TecnicoID == id);
-        if (existingTecnico == null)
-            return NotFound();
-
-        existingTecnico.Nome = tecnico.Nome;
-        return NoContent();
-    }
-
-    [HttpDelete("tecnico/{id}")]
-    public IActionResult Delete(int id)
-    {
-        var existingTecnico = _tecnicos.FirstOrDefault(t => t.TecnicoID == id);
-        if (existingTecnico == null)
-            return NotFound();
-
-        _tecnicos.Remove(existingTecnico);
-        return NoContent();
+        [HttpPut("tecnicos/{id}")]
+        public IActionResult Update(int id, [FromBody] NewTecnicoInputModel tecnico)
+        {
+            try
+            {
+                _tecnicoService.Update(id, tecnico);
+                return Ok(_tecnicoService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpDelete("tecnicos/{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _tecnicoService.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

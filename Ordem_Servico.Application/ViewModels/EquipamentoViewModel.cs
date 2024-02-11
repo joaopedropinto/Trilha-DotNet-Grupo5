@@ -1,4 +1,5 @@
-﻿namespace Ordem_Servico.Application;
+﻿namespace Ordem_Servico.Application.ViewModels;
+
 
 public class EquipamentoViewModel
 {

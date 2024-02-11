@@ -1,4 +1,4 @@
-﻿namespace Ordem_Servico.Application;
+﻿namespace Ordem_Servico.Application.InputModels;
 
 public class NewClienteInputModel
 {
