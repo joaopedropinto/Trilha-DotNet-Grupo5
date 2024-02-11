@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Ordem_Servico.Domain;
+using Ordem_Servico.Domain.Entities;
 
 public class OrdemServicoContext : DbContext
 {
