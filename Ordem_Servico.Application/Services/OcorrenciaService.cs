@@ -30,6 +30,7 @@ public class OcorrenciaService : IOcorrenciaService
             Descricao = ocorrencia.Descricao,
             Situacao = ocorrencia.Situacao,
             DataHora = ocorrencia.DataHora,
+            OrdemServicos = ocorrencia.OrdemServicoIds != null ? _dbcontext.OrdemServico.Where(os => ocorrencia.OrdemServicoIds.Contains(os.OrdemServicoID)).ToList() : null
         };
                     
         _dbcontext.Ocorrencia.Add(_ocorrencia);
@@ -83,6 +84,7 @@ public class OcorrenciaService : IOcorrenciaService
         _ocorrencia.Descricao = ocorrencia.Descricao;
         _ocorrencia.Situacao = ocorrencia.Situacao;
         _ocorrencia.DataHora = ocorrencia.DataHora;
+        _ocorrencia.OrdemServicos = ocorrencia.OrdemServicoIds != null ? _dbcontext.OrdemServico.Where(os => ocorrencia.OrdemServicoIds.Contains(os.OrdemServicoID)).ToList() : null;
 
         _dbcontext.SaveChanges();
     }
