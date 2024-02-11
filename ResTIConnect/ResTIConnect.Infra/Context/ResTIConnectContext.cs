@@ -35,8 +35,8 @@ public class ResTIConnectContext : DbContext
         modelBuilder.Entity<Usuario>()
             .HasOne(u => u.Endereco)
             .WithOne(e => e.Usuario)
-            .HasForeignKey<Endereco>(e => e.EnderecoId);
-        
+            .HasForeignKey<Endereco>(e => e.UsuarioId);
+
         modelBuilder.Entity<Usuario>()
             .HasMany(u => u.Perfis)
             .WithOne(p => p.Usuario)

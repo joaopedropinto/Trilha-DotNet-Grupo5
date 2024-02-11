@@ -28,7 +28,8 @@ public class PerfilService : IPerfilService
         var _perfil = new Perfil
         {
             Descricao = perfil.Descricao,
-            Permissoes = perfil.Permissoes
+            Permissoes = perfil.Permissoes,
+            UsuarioId = perfil.UsuarioId
         };
         _dbcontext.Perfis.Add(_perfil);
         _dbcontext.SaveChanges();
@@ -49,7 +50,8 @@ public class PerfilService : IPerfilService
         {
             PerfilId = c.PerfilId,
             Descricao = c.Descricao,
-            Permissoes = c.Permissoes
+            Permissoes = c.Permissoes,
+            UsuarioId = c.UsuarioId
         }).ToList();
     }
     public PerfilViewModel? GetById(int id)

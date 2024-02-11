@@ -34,8 +34,8 @@ public class EnderecoService : IEnderecoService
             Bairro = endereco.Bairro,
             Estado = endereco.Estado,
             Cep = endereco.Cep,
-            Pais = endereco.Pais
-
+            Pais = endereco.Pais,
+            UsuarioId = endereco.UsuarioId
         };
         _dbcontext.Enderecos.Add(_endereco);
         _dbcontext.SaveChanges();
@@ -62,7 +62,8 @@ public class EnderecoService : IEnderecoService
             Bairro = c.Bairro,
             Estado = c.Estado,
             Cep = c.Cep,
-            Pais = c.Pais
+            Pais = c.Pais,
+            UsuarioId = c.UsuarioId
         }).ToList();
     }
     public EnderecoViewModel? GetById(int id)
