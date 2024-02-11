@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ordem_Servico.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Ordem_Servico.Application.InputModels;
+using Ordem_Servico.Application.Services.Interfaces;
+using Ordem_Servico.Application.ViewModels;
 
 namespace Ordem_Servico.WebAPI;
 
@@ -10,204 +9,54 @@ namespace Ordem_Servico.WebAPI;
 [Route("/api/v0.1/")]
 public class OrdemServicoController : ControllerBase
 {
-    private readonly List<OrdemServico> _ordensServico = new List<OrdemServico>();
+    private readonly IOrdemServicoService _ordemServicoService;
+
+    public OrdemServicoController(IOrdemServicoService ordemServicoService)
+    {
+        _ordemServicoService = ordemServicoService;
+    }
 
     [HttpGet("ordem_servicos")]
-    public ActionResult<IEnumerable<OrdemServico>> Get()
+    public ActionResult<IEnumerable<OrdemServicoViewModel>> Get()
     {
-        return _ordensServico;
+        return Ok(_ordemServicoService.GetAll());
     }
 
     [HttpGet("ordem_servico/{id}")]
-    public ActionResult<OrdemServico> Get(int id)
+    public ActionResult<OrdemServicoViewModel> Get(int id)
     {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
+        var ordemServico = _ordemServicoService.GetById(id);
         if (ordemServico == null)
             return NotFound();
 
-        return ordemServico;
+        return Ok(ordemServico);
     }
 
     [HttpPost("ordem_servico")]
-    public ActionResult<OrdemServico> Post(OrdemServico ordemServico)
+    public ActionResult<OrdemServicoViewModel> Post([FromBody] NewOrdemServicoInputModel ordemServico)
     {
-        ordemServico.OrdemServicoID = _ordensServico.Count + 1;
-        _ordensServico.Add(ordemServico);
-        return CreatedAtAction(nameof(Get), new { id = ordemServico.OrdemServicoID }, ordemServico);
+        if (ordemServico is null)
+            return BadRequest();
+
+        var id = _ordemServicoService.Create(ordemServico);
+        
+        return CreatedAtAction(nameof(Get), new { id }, ordemServico);
     }
 
     [HttpPut("ordem_servico/{id}")]
-    public ActionResult Put(int id, OrdemServico ordemServico)
+    public ActionResult Put(int id, [FromBody] NewOrdemServicoInputModel ordemServico)
     {
-        if (id != ordemServico.OrdemServicoID)
+        if (ordemServico is null)
             return BadRequest();
 
-        var existingOrdemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (existingOrdemServico == null)
-            return NotFound();
-
-        _ordensServico[id - 1] = ordemServico;
-
+        _ordemServicoService.Update(id, ordemServico);
         return NoContent();
     }
 
     [HttpDelete("ordem_servico/{id}")]
     public ActionResult Delete(int id)
     {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        _ordensServico.Remove(ordemServico);
-
-        return NoContent();
-    }
-
-    [HttpGet("ordem_servico/{id}/ocorrencias")]
-    public ActionResult<IEnumerable<Ocorrencia>> GetOcorrencias(int id)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        return Ok(ordemServico.Ocorrencias);
-    }
-
-    [HttpPost("ordem_servico/{id}/ocorrencias")]
-    public ActionResult AddOcorrencia(int id, Ocorrencia ocorrencia)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        ordemServico?.Ocorrencias?.Add(ocorrencia);
-
-        return CreatedAtAction(nameof(GetOcorrencias), new { id }, ocorrencia);
-    }
-
-    [HttpPut("ordem_servico/{id}/ocorrencias/{ocorrenciaId}")]
-    public ActionResult UpdateOcorrencia(int id, int ocorrenciaId, Ocorrencia ocorrencia)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        var existingOcorrencia = ordemServico?.Ocorrencias?.FirstOrDefault(o => o.OcorrenciaID == ocorrenciaId);
-        if (existingOcorrencia == null)
-            return NotFound();
-
-        return NoContent();
-    }
-
-    [HttpDelete("ordem_servico/{id}/ocorrencias/{ocorrenciaId}")]
-    public ActionResult DeleteOcorrencia(int id, int ocorrenciaId)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        var ocorrencia = ordemServico?.Ocorrencias?.FirstOrDefault(o => o.OcorrenciaID == ocorrenciaId);
-        if (ocorrencia == null)
-            return NotFound();
-
-        return NoContent();
-    }
-
-    [HttpGet("ordem_servico/{id}/pecas")]
-    public ActionResult<IEnumerable<Peca>> GetPecas(int id)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        return Ok(ordemServico.Pecas);
-    }
-
-    [HttpPost("ordem_servico/{id}/pecas")]
-    public ActionResult AddPeca(int id, Peca peca)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        ordemServico?.Pecas?.Add(peca);
-
-        return CreatedAtAction(nameof(GetPecas), new { id }, peca);
-    }
-
-    [HttpPut("ordem_servico/{id}/pecas/{pecaId}")]
-    public ActionResult UpdatePeca(int id, int pecaId, Peca peca)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        var existingPeca = ordemServico?.Pecas?.FirstOrDefault(p => p.PecaID == pecaId);
-        if (existingPeca == null)
-            return NotFound();
-
-        return NoContent();
-    }
-
-    [HttpDelete("ordem_servico/{id}/pecas/{pecaId}")]
-    public ActionResult DeletePeca(int id, int pecaId)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        var peca = ordemServico?.Pecas?.FirstOrDefault(p => p.PecaID == pecaId);
-        if (peca == null)
-            return NotFound();
-
-        return NoContent();
-    }
-
-    [HttpGet("ordem_servico/{id}/finalizacao")]
-    public ActionResult<Finalizacao> GetFinalizacao(int id)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        return Ok(ordemServico.Finalizacao);
-    }
-
-    [HttpPost("ordem_servico/{id}/finalizacao")]
-    public ActionResult AddFinalizacao(int id, Finalizacao finalizacao)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        ordemServico.Finalizacao = finalizacao;
-
-        return CreatedAtAction(nameof(GetFinalizacao), new { id }, finalizacao);
-    }
-
-    [HttpPut("ordem_servico/{id}/finalizacao")]
-    public ActionResult UpdateFinalizacao(int id, Finalizacao finalizacao)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        if (ordemServico.Finalizacao == null)
-            return NotFound();
-
-        return NoContent();
-    }
-
-    [HttpDelete("ordem_servico/{id}/finalizacao")]
-    public ActionResult DeleteFinalizacao(int id)
-    {
-        var ordemServico = _ordensServico.FirstOrDefault(os => os.OrdemServicoID == id);
-        if (ordemServico == null)
-            return NotFound();
-
-        if (ordemServico.Finalizacao == null)
-            return NotFound();
-
+        _ordemServicoService.Delete(id);
         return NoContent();
     }
 }

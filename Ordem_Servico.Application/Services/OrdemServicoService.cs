@@ -3,6 +3,7 @@ using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Domain;
 namespace Ordem_Servico.Application.Services;
+using Microsoft.EntityFrameworkCore;
 
 public class OrdemServicoService : IOrdemServicoService
 {
@@ -13,7 +14,13 @@ public class OrdemServicoService : IOrdemServicoService
     }
     private OrdemServico GetByDbId(int id)
     {
-        var _ordemServico = _dbcontext.OrdemServico.Find(id);
+        var _ordemServico = _dbcontext.OrdemServico
+                            .Include(o => o.Finalizacao)
+                            .Include(o => o.Equipamentos)
+                            .Include(o => o.Servicos)
+                            .Include(o => o.Ocorrencias)
+                            .Include(o => o.Pecas)
+                            .FirstOrDefault(o => o.OrdemServicoID == id);
         if (_ordemServico is null)
             throw new Exception();
 
@@ -28,7 +35,7 @@ public class OrdemServicoService : IOrdemServicoService
             Status = ordemServico.Status,
             ClienteID = ordemServico.ClienteID,
             TecnicoID = ordemServico.TecnicoID,
-            Finalizacao = ordemServico.Finalizacao,
+            Finalizacao = _dbcontext.Finalizacao.Find(ordemServico.FinalizacaoID) ?? null,
         };
 
         // Mapeie ou crie os equipamentos com base nos IDs fornecidos
@@ -36,13 +43,6 @@ public class OrdemServicoService : IOrdemServicoService
         {
             _ordemServico.Equipamentos = _dbcontext.Equipamento
                                             .Where(e => ordemServico.EquipamentosIDs.Contains(e.EquipamentoID))
-                                            .ToList();
-        }
-
-        if (ordemServico.ServicosIDs != null && ordemServico.ServicosIDs.Any())
-        {
-            _ordemServico.Servicos = _dbcontext.Servico
-                                            .Where(e => ordemServico.ServicosIDs.Contains(e.ServicoID))
                                             .ToList();
         }
 
@@ -63,18 +63,32 @@ public class OrdemServicoService : IOrdemServicoService
 
     public List<OrdemServicoViewModel> GetAll()
     {
-        var _ordemServicos = _dbcontext.OrdemServico.ToList();
+        var _ordemServicos = _dbcontext.OrdemServico
+                            .Include(o => o.Finalizacao)
+                            .Include(o => o.Equipamentos)
+                            .Include(o => o.Servicos)
+                            .Include(o => o.Ocorrencias)
+                            .Include(o => o.Pecas)
+                            .ToList();
 
         return _ordemServicos.Select(ordemServico => new OrdemServicoViewModel()
         {
+            OrdemServicoID = ordemServico.OrdemServicoID,
             Prazo = ordemServico.Prazo,
             FormaPagamento = ordemServico.FormaPagamento,
             Status = ordemServico.Status,
             ClienteID = ordemServico.ClienteID,
             TecnicoID = ordemServico.TecnicoID,
-            Finalizacao = ordemServico.Finalizacao,
-            Equipamentos = (ICollection<int>)ordemServico.Equipamentos,
-            Servicos = (ICollection<int>)ordemServico.Servicos,
+            Finalizacao =  ordemServico.Finalizacao != null ? new FinalizacaoViewModel()
+            {
+                FinalizacaoID = ordemServico.Finalizacao.FinalizacaoID,
+                DataFinalizacao = ordemServico.Finalizacao.DataFinalizacao,
+                Comentario = ordemServico.Finalizacao.Comentario,
+            } : null,
+            EquipamentosIDs = ordemServico.Equipamentos?.Select(e => e.EquipamentoID).ToList(),
+            ServicosIDs = ordemServico.Servicos?.Select(s => s.ServicoID).ToList(),
+            OcorrenciasIDs = ordemServico.Ocorrencias?.Select(o => o.OcorrenciaID).ToList(),
+            PecasIDs = ordemServico.Pecas?.Select(p => p.PecaID).ToList(),
         }).ToList();
     }
 
@@ -89,9 +103,16 @@ public class OrdemServicoService : IOrdemServicoService
             Status = _ordemServico.Status,
             ClienteID = _ordemServico.ClienteID,
             TecnicoID = _ordemServico.TecnicoID,
-            Finalizacao = _ordemServico.Finalizacao,
-            Equipamentos = (ICollection<int>)_ordemServico.Equipamentos,
-            Servicos = (ICollection<int>)_ordemServico.Servicos,
+            Finalizacao = new FinalizacaoViewModel()
+            {
+                FinalizacaoID = _ordemServico.Finalizacao?.FinalizacaoID ?? 0,
+                DataFinalizacao = _ordemServico.Finalizacao?.DataFinalizacao ?? DateTime.MinValue,
+                Comentario = _ordemServico.Finalizacao?.Comentario ?? "",
+            },
+            EquipamentosIDs = _ordemServico.Equipamentos?.Select(e => e.EquipamentoID).ToList(),
+            ServicosIDs = _ordemServico.Servicos?.Select(s => s.ServicoID).ToList(),
+            OcorrenciasIDs = _ordemServico.Ocorrencias?.Select(o => o.OcorrenciaID).ToList(),
+            PecasIDs = _ordemServico.Pecas?.Select(p => p.PecaID).ToList()
         };
     }
 
@@ -104,7 +125,10 @@ public class OrdemServicoService : IOrdemServicoService
         _ordemServico.Status = ordemServico.Status;
         _ordemServico.ClienteID = ordemServico.ClienteID;
         _ordemServico.TecnicoID = ordemServico.TecnicoID;
-        _ordemServico.Finalizacao = ordemServico.Finalizacao;
+        _ordemServico.Finalizacao = _dbcontext.Finalizacao.Find(ordemServico.FinalizacaoID) ?? null;
+        _ordemServico.Equipamentos = _dbcontext.Equipamento
+                                    .Where(e => ordemServico.EquipamentosIDs.Contains(e.EquipamentoID))
+                                    .ToList();
 
         _dbcontext.OrdemServico.Update(_ordemServico);
 
