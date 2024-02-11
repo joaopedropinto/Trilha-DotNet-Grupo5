@@ -1,70 +1,71 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ordem_Servico.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Ordem_Servico.Application.ViewModels;
+using Ordem_Servico.Application.InputModels;
+using Ordem_Servico.Application.Services.Interfaces;
 
-namespace Ordem_Servico.WebAPI.Controllers;
-
-[ApiController]
-[Route("/api/v0.1/")]
-public class ServicoController : ControllerBase
+namespace Ordem_Servico.WebAPI.Controllers
 {
-    private readonly List <Servico> _servicos = new List<Servico>
+    [ApiController]
+    [Route("/api/v0.1/")]
+    public class ServicoController : ControllerBase 
     {
-        new Servico { ServicoID = 1, Data = DateTime.Now, Descricao = "Troca de óleo", Valor = 100.00 },
-        new Servico { ServicoID = 2, Data = DateTime.Now, Descricao = "Troca de pneu", Valor = 200.00 },
-        new Servico { ServicoID = 3, Data = DateTime.Now, Descricao = "Troca de freio", Valor = 300.00 }
-    };
+        private readonly IServicoService _servicoService;
+        public List<ServicoViewModel> Servicos => _servicoService.GetAll();
+        public ServicoController(IServicoService service) => _servicoService = service;
 
-    [HttpGet("servicos")]
-    public IActionResult Get()
-    {
-        return Ok(_servicos);
-    }
-
-    [HttpGet("servicos/{id}")]
-    public IActionResult Get(int id)
-    {
-        var servico = _servicos.FirstOrDefault(s => s.ServicoID == id);
-        if (servico == null)
+        [HttpGet("servicos")]
+        public IActionResult GetAll()
         {
-            return NotFound();
+            var servicos = _servicoService.GetAll();
+            return Ok(servicos);
         }
-        return Ok(servico);
-    }
 
-    [HttpPost("servicos")]
-    public IActionResult Post(Servico servico)
-    {
-        _servicos.Add(servico);
-        return CreatedAtAction(nameof(Get), new { id = servico.ServicoID }, servico);
-    }
-
-    [HttpPut("servicos/{id}")]
-    public IActionResult Put(int id, Servico servico)
-    {
-        var servicoExistente = _servicos.FirstOrDefault(s => s.ServicoID == id);
-        if (servicoExistente == null)
+        [HttpGet("servicos/{id}")]
+        public IActionResult GetById(int id)
         {
-            return NotFound();
+            var servico = _servicoService.GetById(id);
+            if (servico == null)
+            {
+                return NotFound();
+            }
+            return Ok(servico);
         }
-        servicoExistente.Data = servico.Data;
-        servicoExistente.Descricao = servico.Descricao;
-        servicoExistente.Valor = servico.Valor;
-        return NoContent();
-    }
 
-    [HttpDelete("servicos/{id}")]
-    public IActionResult Delete(int id)
-    {
-        var servico = _servicos.FirstOrDefault(s => s.ServicoID == id);
-        if (servico == null)
+        [HttpPost("servicos")]
+        public IActionResult Create([FromBody] NewServicoInputModel servico)
         {
-            return NotFound();
+            var newServicoId = _servicoService.Create(servico);
+            var createdServico = _servicoService.GetById(newServicoId);
+            return CreatedAtAction(nameof(GetById), new { id = newServicoId }, createdServico);
         }
-        _servicos.Remove(servico);
-        return NoContent();
+
+        [HttpPut("servicos/{id}")]
+        public IActionResult Update(int id, [FromBody] NewServicoInputModel servico)
+        {
+            try
+            {
+                _servicoService.Update(id, servico);
+                return Ok(_servicoService.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpDelete("servicos/{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _servicoService.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
 

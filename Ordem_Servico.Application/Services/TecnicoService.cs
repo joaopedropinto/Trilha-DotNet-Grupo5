@@ -1,4 +1,5 @@
-﻿using Ordem_Servico.Application.Services.Interfaces;
+﻿using Ordem_Servico.Application.InputModels;
+using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Domain;
 
