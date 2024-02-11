@@ -9,11 +9,11 @@ public class TecnicoController : ControllerBase
 {
     private static List<Tecnico> _tecnicos = new List<Tecnico>
         {
-            new Tecnico { TecnicoID = 1, Nome = "Técnico 1" },
-            new Tecnico { TecnicoID = 2, Nome = "Técnico 2" },
-            new Tecnico { TecnicoID = 3, Nome = "Técnico 3" },
-            new Tecnico { TecnicoID = 4, Nome = "Técnico 4" },
-            new Tecnico { TecnicoID = 5, Nome = "Técnico 5" }
+            new Tecnico { TecnicoID = 1, Nome = "Técnico 1", Email = "JXs7Z@example.com", Especialidade = "Especialidade 1", Telefone = "123456789" },
+            new Tecnico { TecnicoID = 2, Nome = "Técnico 2", Email = "JXs7Z@example.com", Especialidade = "Especialidade 2", Telefone = "123456789" },
+            new Tecnico { TecnicoID = 3, Nome = "Técnico 3", Email = "JXs7Z@example.com", Especialidade = "Especialidade 3", Telefone = "123456789" },
+            new Tecnico { TecnicoID = 4, Nome = "Técnico 4", Email = "JXs7Z@example.com", Especialidade = "Especialidade 4", Telefone = "123456789" },
+            new Tecnico { TecnicoID = 5, Nome = "Técnico 5", Email = "JXs7Z@example.com", Especialidade = "Especialidade 5", Telefone = "123456789" }
         };
 
     [HttpGet("tecnicos")]
