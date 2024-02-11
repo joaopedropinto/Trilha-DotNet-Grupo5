@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ordem_Servico.Domain;
+using Ordem_Servico.Application.Services.Interfaces;
+using Ordem_Servico.Application.InputModels;
+using Ordem_Servico.Application.ViewModels;
 
 namespace Ordem_Servico.WebAPI.Controllers;
 
@@ -7,68 +9,52 @@ namespace Ordem_Servico.WebAPI.Controllers;
 [Route("/api/v0.1/")]
 public class EquipamentoController : ControllerBase
 {
-    private readonly List<Equipamento> _equipamentos = new List<Equipamento>();
+     private readonly IEquipamentoService _equipamentoService;
+    public List<EquipamentoViewModel> Equipamentos => _equipamentoService.GetAll();
+    public EquipamentoController(IEquipamentoService service) => _equipamentoService = service;
 
     [HttpGet("equipamentos")]
     public IActionResult Get()
     {
-        return Ok(_equipamentos);
+        return Ok(Equipamentos);
     }
 
     [HttpGet("equipamento/{id}")]
     public IActionResult GetById(int id)
     {
-        var equipamento = _equipamentos.FirstOrDefault(e => e.EquipamentoID == id);
-        if (equipamento == null)
+        try
         {
-            return NotFound();
+            var equipamento = _equipamentoService.GetById(id);
+            return Ok(equipamento);
         }
-        return Ok(equipamento);
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("equipamento")]
-
-    public IActionResult Post([FromBody] Equipamento equipamento)
+    public IActionResult Post([FromBody] NewEquipamentoInputModel equipamento)
     {
-        if (equipamento == null)
-        {
-            return BadRequest();
-        }
-
-        _equipamentos.Add(equipamento);
-        return CreatedAtAction(nameof(GetById), new { id = equipamento.EquipamentoID }, equipamento);
+        _equipamentoService.Create(equipamento);
+        return CreatedAtAction(nameof(Get), equipamento);
     }
 
     [HttpPut("equipamento/{id}")]
-    public IActionResult Put(int id, [FromBody] Equipamento equipamento)
+    public IActionResult Put(int id, [FromBody] NewEquipamentoInputModel equipamento)
     {
-        var existingEquipamento = _equipamentos.FirstOrDefault(e => e.EquipamentoID == id);
-        if (existingEquipamento == null)
-        {
-            return NotFound();
-        }
-
-        existingEquipamento.Tipo = equipamento.Tipo;
-        existingEquipamento.Marca = equipamento.Marca;
-        existingEquipamento.Modelo = equipamento.Modelo;
-        existingEquipamento.DadosAdicionais = equipamento.DadosAdicionais;
-        existingEquipamento.DefeitoDeclarado = equipamento.DefeitoDeclarado;
-        existingEquipamento.Solucao = equipamento.Solucao;
-
-        return Ok(existingEquipamento);
+        if (_equipamentoService.GetById(id) == null)
+            return NoContent();
+        _equipamentoService.Update(id, equipamento);
+        return Ok(_equipamentoService.GetById(id));
     }
 
     [HttpDelete("equipamento/{id}")]
-
     public IActionResult Delete(int id)
     {
-        var equipamento = _equipamentos.FirstOrDefault(e => e.EquipamentoID == id);
-        if (equipamento == null)
-        {
-            return NotFound();
-        }
-
-        _equipamentos.Remove(equipamento);
-        return NoContent();
+        if (_equipamentoService.GetById(id) == null)
+            return NoContent();
+        _equipamentoService.Delete(id);
+        return Ok();
     }
 }
