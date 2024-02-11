@@ -1,4 +1,5 @@
 namespace Ordem_Servico.Domain;
+using Ordem_Servico.Domain.Entities;
 public class OrdemServico : BaseEntity
 {
     public int OrdemServicoID { get; set; }
