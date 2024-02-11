@@ -13,6 +13,7 @@ builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEquipamentoService, EquipamentoService>();
 builder.Services.AddScoped<IServicoService, ServicoService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
+builder.Services.AddScoped<IPecaService, PecaService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
