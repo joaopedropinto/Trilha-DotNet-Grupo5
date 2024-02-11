@@ -1,5 +1,4 @@
-﻿namespace Ordem_Servico.Application;
-
+﻿namespace Ordem_Servico.Application.InputModels;
 public class NewClienteInputModel
 {
     public required string CPF { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Ordem_Servico.Domain;
 
-namespace Ordem_Servico.Application;
+namespace Ordem_Servico.Application.ViewModels;
 
 public class OrdemServicoViewModel
 {
