@@ -51,30 +51,32 @@ public class OcorrenciaService : IOcorrenciaService
 
     public List<OcorrenciaViewModel> GetAll()
     {
-        var _ocorrencias = _dbcontext.Ocorrencia.ToList();
-
-        return _ocorrencias.Select(ocorrencia => new OcorrenciaViewModel()
+        return _dbcontext.Ocorrencia.Select(ocorrencia => new OcorrenciaViewModel()
         {
             OcorrenciaID = ocorrencia.OcorrenciaID,
             Descricao = ocorrencia.Descricao,
             Situacao = ocorrencia.Situacao,
             DataHora = ocorrencia.DataHora,
-            OrdemServicoIds = ocorrencia.OrdemServicos?.Select(os => os.OrdemServicoID).ToList() ?? new List<int>()
+            OrdemServicoIds = ocorrencia.OrdemServicos != null ? ocorrencia.OrdemServicos.Select(os => os.OrdemServicoID).ToList() : new List<int>()
         }).ToList();
+
     }
 
     public OcorrenciaViewModel? GetById(int id)
     {
-        var _ocorrencia = GetByDbId(id);
+        var ocorrencia = _dbcontext.Ocorrencia
+            .Where(ocorrencia => ocorrencia.OcorrenciaID == id)
+            .Select(ocorrencia => new OcorrenciaViewModel()
+            {
+                OcorrenciaID = ocorrencia.OcorrenciaID,
+                Descricao = ocorrencia.Descricao,
+                Situacao = ocorrencia.Situacao,
+                DataHora = ocorrencia.DataHora,
+                OrdemServicoIds = ocorrencia.OrdemServicos != null ? ocorrencia.OrdemServicos.Select(os => os.OrdemServicoID).ToList() : new List<int>()
+            })
+            .FirstOrDefault();
 
-        return new OcorrenciaViewModel()
-        {
-            OcorrenciaID = _ocorrencia.OcorrenciaID,
-            Descricao = _ocorrencia.Descricao,
-            Situacao = _ocorrencia.Situacao,
-            DataHora = _ocorrencia.DataHora,
-            OrdemServicoIds = _ocorrencia.OrdemServicos?.Select(os => os.OrdemServicoID).ToList() ?? new List<int>()
-        };
+        return ocorrencia;
     }
 
     public void Update(int id, NewOcorrenciaInputModel ocorrencia)
