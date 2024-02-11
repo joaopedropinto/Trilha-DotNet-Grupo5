@@ -20,7 +20,7 @@ public class PecaService : IPecaService
             {
                 PecaID = p.PecaID,
                 Tipo = p.Tipo,
-                Descricao = p.Descricao,
+                Descrição = p.Descrição,
                 Valor = p.Valor,
                 OrdemServicosID = p.OrdemServicos.Select(os => os.OrdemServicoID).ToList()
             })
@@ -35,7 +35,7 @@ public class PecaService : IPecaService
             {
                 PecaID = p.PecaID,
                 Tipo = p.Tipo,
-                Descricao = p.Descricao,
+                Descrição = p.Descrição,
                 Valor = p.Valor,
                 OrdemServicosID = p.OrdemServicos != null ? p.OrdemServicos.Select(os => os.OrdemServicoID).ToList() : null
             })
@@ -49,7 +49,7 @@ public class PecaService : IPecaService
         var pecaEntity = new Peca
         {
             Tipo = peca.Tipo,
-            Descricao = peca.Descricao,
+            Descrição = peca.Descrição,
             Valor = peca.Valor,
             OrdemServicos = peca.OrdemServicosID != null ? _dbContext.OrdemServico.Where(os => peca.OrdemServicosID.Contains(os.OrdemServicoID)).ToList() : null
         };
@@ -68,7 +68,7 @@ public class PecaService : IPecaService
             throw new Exception();
 
         pecaEntity.Tipo = peca.Tipo;
-        pecaEntity.Descricao = peca.Descricao;
+        pecaEntity.Descrição = peca.Descrição;
         pecaEntity.Valor = peca.Valor;
         pecaEntity.OrdemServicos = peca.OrdemServicosID != null ? _dbContext.OrdemServico.Where(os => peca.OrdemServicosID.Contains(os.OrdemServicoID)).ToList() : null;
 
