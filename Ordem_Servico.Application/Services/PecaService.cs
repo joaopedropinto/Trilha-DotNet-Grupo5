@@ -1,7 +1,7 @@
 ﻿using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
-using Ordem_Servico.Domain;
+using Ordem_Servico.Domain.Entities;
 
 namespace Ordem_Servico.Application.Services;
 public class PecaService : IPecaService

@@ -1,4 +1,4 @@
-namespace Ordem_Servico.Domain;
+namespace Ordem_Servico.Domain.Entities;
 public class Tecnico : Pessoa
 {
     public int TecnicoID { get; set; }
