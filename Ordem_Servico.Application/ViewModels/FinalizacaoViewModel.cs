@@ -1,9 +1,9 @@
-namespace Ordem_Servico.Domain;
+﻿namespace Ordem_Servico.Application.ViewModels;
 
-public class Finalizacao : BaseEntity
+public class FinalizacaoViewModel
 {
     public int FinalizacaoID { get; set; }
     public DateTime DataFinalizacao { get; set; }
     public string? Comentario { get; set; }
-    public OrdemServico? OrdemServico { get; set; }
+    public int OrdemServicoID { get; set; }
 }
