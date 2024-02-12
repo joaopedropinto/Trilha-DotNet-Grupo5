@@ -18,7 +18,7 @@ public class UsuarioController : ControllerBase
     [HttpGet("usuarios")]
     public IActionResult Get()
     {
-        var usuarios =  _usuarioService.GetAll();
+        var usuarios = _usuarioService.GetAll();
         return Ok(usuarios);
     }
 
@@ -31,6 +31,26 @@ public class UsuarioController : ControllerBase
             return NotFound();
         }
         return Ok(usuario);
+    }
+
+    [HttpGet("usuarios/perfil/{id}")]
+    public async Task<IActionResult> GetProfile(int id)
+    {
+        var perfil = await _usuarioService.GetProfileById(id);
+
+        if (perfil == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(perfil);
+    }
+
+    [HttpGet("usuario/endereço/{uf}")]
+    public IActionResult GetUsersByUF(string uf)
+    {
+        var users = _usuarioService.GetUsersByUF(uf);
+        return Ok(users);
     }
 
     [HttpPost("usuarios")]

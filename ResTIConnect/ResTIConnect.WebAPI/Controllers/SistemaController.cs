@@ -43,6 +43,35 @@ public class SistemaController : ControllerBase
         }
     }
 
+    [HttpGet("sistema/user/{id}")]
+    public IActionResult GetSistemasByUserId(int id)
+    {
+        try
+        {
+            var sistemas = _sistemaService.GetSistemasByUserId(id);
+            return Ok(sistemas);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("sistema/evento/{type}/from/{date}")]
+    public IActionResult GetSystemsByEventFromDate(string type, DateTimeOffset date)
+    {
+        try
+        {
+            var systems = _sistemaService.GetSystemsByEventFromDate(type, date);
+            return Ok(systems);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Erro ao buscar sistemas por evento e data: {ex.Message}");
+        }
+    }
+
+
     [HttpPost("sistema")]
     public IActionResult Create([FromBody] NewSistemaInputModel sistema)
     {
