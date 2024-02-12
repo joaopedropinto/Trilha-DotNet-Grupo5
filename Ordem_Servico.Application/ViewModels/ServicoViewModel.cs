@@ -6,4 +6,5 @@ public class ServicoViewModel
     public DateTime Data { get; set; }
     public required string Descricao { get; set; }
     public double Valor { get; set; }
+    public ICollection<int>? OrdemServicosID { get; set; }
 }

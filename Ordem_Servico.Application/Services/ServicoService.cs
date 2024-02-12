@@ -1,4 +1,5 @@
-﻿using Ordem_Servico.Application.InputModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Domain;
@@ -14,9 +15,10 @@ public class ServicoService : IServicoService
     }
     private Servico GetByDbId(int id)
     {
-        var _servico = _dbcontext.Servico.Find(id);
+        var _servico = _dbcontext.Servico.Include(s => s.OrdemServicos)
+                                        .FirstOrDefault(s => s.ServicoID == id);
         if (_servico is null)
-            throw new Exception();
+            throw new Exception("Serviço não encontrado");
 
         return _servico;
     }
@@ -26,7 +28,11 @@ public class ServicoService : IServicoService
         {
             Data = servico.Data,
             Descricao = servico.Descricao,
-            Valor = servico.Valor
+            Valor = servico.Valor,
+            OrdemServicos = servico.OrdemServicosID != null ? _dbcontext.OrdemServico
+                                                                .Where(os => servico.OrdemServicosID
+                                                                .Contains(os.OrdemServicoID))
+                                                                .ToList() : null
         };
         _dbcontext.Servico.Add(_servico);
 
@@ -46,13 +52,15 @@ public class ServicoService : IServicoService
 
     public List<ServicoViewModel> GetAll()
     {
-        var _servicos = _dbcontext.Servico.ToList();
-
-        return _servicos.Select(servico => new ServicoViewModel()
+        return _dbcontext.Servico.Select(s => new ServicoViewModel
         {
-            Data = servico.Data,
-            Descricao = servico.Descricao,
-            Valor = servico.Valor
+            ServicoID = s.ServicoID,
+            Data = s.Data,
+            Descricao = s.Descricao,
+            Valor = s.Valor,
+            OrdemServicosID = s.OrdemServicos != null ? s.OrdemServicos
+                                                        .Select(os => os.OrdemServicoID)
+                                                        .ToList() : null
         }).ToList();
     }
 
@@ -62,9 +70,13 @@ public class ServicoService : IServicoService
 
         return new ServicoViewModel()
         {
+            ServicoID = _servico.ServicoID,
             Data = _servico.Data,
             Descricao = _servico.Descricao,
-            Valor = _servico.Valor
+            Valor = _servico.Valor,
+            OrdemServicosID = _servico.OrdemServicos?
+                                .Select(os => os.OrdemServicoID)
+                                .ToList()
         };
     }
 
@@ -75,6 +87,10 @@ public class ServicoService : IServicoService
         _servico.Data = servico.Data;
         _servico.Descricao = servico.Descricao;
         _servico.Valor = servico.Valor;
+        _servico.OrdemServicos = servico.OrdemServicosID != null ? _dbcontext.OrdemServico
+                                                            .Where(os => servico.OrdemServicosID
+                                                            .Contains(os.OrdemServicoID))
+                                                            .ToList() : null;
 
         _dbcontext.Servico.Update(_servico);
 
