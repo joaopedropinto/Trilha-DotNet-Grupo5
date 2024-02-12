@@ -21,18 +21,6 @@ Endpoints iniciais que compõem este sistema de Gestão de Ordem de Serviço.
    - `POST /ordens-servico`: Cria uma nova ordem de serviço.
    - `PUT /ordens-servico/{id}`: Atualiza uma ordem de serviço existente.
    - `DELETE /ordens-servico/{id}`: Exclui uma ordem de serviço.
-   - `GET /ordens-servico/{id}/ocorrencias`: Lista as ocorrências associadas a uma ordem de serviço.
-   - `POST /ordens-servico/{id}/ocorrencias`: Adiciona uma nova ocorrência à ordem de serviço.
-   - `PUT /ordens-servico/{id}/ocorrencias/{ocorrenciaId}`: Atualiza uma ocorrência específica.
-   - `DELETE /ordens-servico/{id}/ocorrencias/{ocorrenciaId}`: Exclui uma ocorrência específica.
-   - `GET /ordens-servico/{id}/pecas`: Lista as peças associadas a uma ordem de serviço.
-   - `POST /ordens-servico/{id}/pecas`: Adiciona uma nova peça à ordem de serviço.
-   - `PUT /ordens-servico/{id}/pecas/{pecaId}`: Atualiza uma peça específica.
-   - `DELETE /ordens-servico/{id}/pecas/{pecaId}`: Exclui uma peça específica.
-   - `GET /ordens-servico/{id}/finalizacao`: Retorna os detalhes da finalização, se existir, de uma ordem de serviço.
-   - `POST /ordens-servico/{id}/finalizacao`: Adiciona uma finalização à ordem de serviço, se aplicável.
-   - `PUT /ordens-servico/{id}/finalizacao`: Atualiza os detalhes da finalização, se existir.
-   - `DELETE /ordens-servico/{id}/finalizacao`: Remove a finalização associada, se existir.
 
 2. **Cliente:**
    - `GET /clientes`: Lista todos os clientes.
@@ -61,6 +49,33 @@ Endpoints iniciais que compõem este sistema de Gestão de Ordem de Serviço.
    - `POST /servicos`: Cria um novo serviço.
    - `PUT /servicos/{id}`: Atualiza um serviço existente.
    - `DELETE /servicos/{id}`: Exclui um serviço.
+
+6. **Peça:**
+   - `GET /pecas`: Lista todas as peças disponíveis.
+   - `GET /pecas/{id}`: Retorna os detalhes de uma peça específica.
+   - `POST /pecas`: Adiciona uma nova peça.
+   - `PUT /pecas/{id}`: Atualiza uma peça existente.
+   - `DELETE /pecas/{id}`: Exclui uma peça.
+
+7. **Ocorrencia:**
+   - `GET /ocorrencias`: Lista todas as ocorrências.
+   - `GET /ocorrencias/{id}`: Retorna os detalhes de uma ocorrência específica.
+   - `POST /ocorrencias`: Cria uma nova ocorrência.
+   - `PUT /ocorrencias/{id}`: Atualiza uma ocorrência existente.
+   - `DELETE /ocorrencias/{id}`: Exclui uma ocorrência.
+
+8. **Finalizacao:**
+   - `GET /finalizacoes`: Lista todas as finalizações.
+   - `GET /finalizacoes/{id}`: Retorna os detalhes de uma finalização específica.
+   - `POST /finalizacoes`: Cria uma nova finalização.
+   - `PUT /finalizacoes/{id}`: Atualiza uma finalização existente.
+   - `DELETE /finalizacoes/{id}`: Exclui uma finalização.
+
+9. **Relatorios:**
+- `GET /relatorio/ordens-servico/status/{status}`: Retorna as ordens de serviço por status.
+- `GET /relatorio/ordens-servico/data`: Retorna as ordens de serviço por data.
+- `GET /relatorio/faturamento/data`: Retorna o faturamento por data.
+- `GET /relatorio/equipamentos/cliente/{clienteId}`: Retorna os equipamentos por cliente.
 
 ### Autores
 
