@@ -1,7 +1,5 @@
-namespace ResTIConnect.Application.ViewModels
+namespace ResTIConnect.Application.ViewModels;
+public class LoginViewModel
 {
-    public class LoginViewModel
-    {
-        public string? Email { get; set; }
-    }
+    public string? Email { get; set; }
 }
