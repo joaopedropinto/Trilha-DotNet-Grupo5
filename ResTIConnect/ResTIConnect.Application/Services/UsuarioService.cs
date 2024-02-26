@@ -3,16 +3,21 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Domain.Entities;
 using ResTIConnect.Infra.Context;
+using ResTIConnect.Infra.Auth;
 using ResTIConnect.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ResTIConnect.Application.Services;
 public class UsuarioService : IUsuarioService
 {
+    private readonly IAuthService _authService;
     private readonly ResTIConnectContext _dbcontext;
-    public UsuarioService(ResTIConnectContext dbcontext)
+    public UsuarioService(ResTIConnectContext dbcontext, IAuthService authService)
     {
         _dbcontext = dbcontext;
+        _authService = authService;
     }
     private Usuario GetByDbId(int id)
     {
@@ -26,6 +31,7 @@ public class UsuarioService : IUsuarioService
 
     public int Create(NewUsuarioInputModel usuario)
     {
+        usuario.Senha = _authService.ComputeSha256Hash(usuario.Senha);
         var _usuario = new Usuario
         {
             Nome = usuario.Nome,
