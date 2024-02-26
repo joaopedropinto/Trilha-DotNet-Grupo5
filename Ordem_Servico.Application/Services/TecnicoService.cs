@@ -2,15 +2,19 @@
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Domain.Entities;
+using Ordem_Servico.Infra.Auth;
 
 namespace Ordem_Servico.Application.Services;
 
 public class TecnicoService : ITecnicoService
 {
     private readonly OrdemServicoContext _dbcontext;
-    public TecnicoService(OrdemServicoContext dbcontext)
+    private readonly IAuthService _authService;
+
+    public TecnicoService(OrdemServicoContext dbcontext, IAuthService authService)
     {
         _dbcontext = dbcontext;
+        _authService = authService;
     }
     private Tecnico GetByDbId(int id)
     {
@@ -22,12 +26,14 @@ public class TecnicoService : ITecnicoService
     }
     public int Create(NewTecnicoInputModel tecnico)
     {
+        tecnico.Senha = _authService.ComputeSha256Hash(tecnico.Senha);
         var _tecnico = new Tecnico
         {
             Nome = tecnico.Nome,
             Especialidade = tecnico.Especialidade,
             Telefone = tecnico.Telefone,
             Email = tecnico.Email,
+            Senha = tecnico.Senha
         };
         _dbcontext.Tecnico.Add(_tecnico);
 

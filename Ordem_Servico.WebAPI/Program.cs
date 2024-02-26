@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Ordem_Servico.Application.Services;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Infra;
+using Ordem_Servico.Infra.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IFinalizacaoService, FinalizacaoService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<IPecaService, PecaService>();
 builder.Services.AddScoped<IRelatorioService, RelatorioService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
