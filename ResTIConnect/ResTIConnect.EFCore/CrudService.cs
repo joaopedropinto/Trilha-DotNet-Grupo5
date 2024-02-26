@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using ResTIConnect.Infra;
+using ResTIConnect.Infra.Context;
 
 namespace ResTIConnect.EFCore;
 
