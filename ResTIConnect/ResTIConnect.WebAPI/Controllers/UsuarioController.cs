@@ -56,6 +56,7 @@ public class UsuarioController : ControllerBase
     [HttpPost("usuarios")]
     public IActionResult Post([FromBody] NewUsuarioInputModel usuario)
     {
+        
         var id = _usuarioService.Create(usuario);
         return CreatedAtAction(nameof(GetById), new { id = id }, usuario);
     }

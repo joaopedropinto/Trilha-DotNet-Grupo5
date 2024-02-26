@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using ResTIConnect.Application.Services;
 using ResTIConnect.Application.Services.Interfaces;
 using ResTIConnect.Infra.Context;
+using ResTIConnect.Infra.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 builder.Services.AddScoped<ISistemaService, SistemaService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
