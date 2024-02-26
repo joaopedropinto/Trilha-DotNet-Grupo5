@@ -1,5 +1,5 @@
-﻿using ResTIConnect.Domain;
-using ResTIConnect.Infra;
+﻿using ResTIConnect.Domain.Entities;
+using ResTIConnect.Infra.Context;
 
 namespace ResTIConnect.EFCore
 {
