@@ -2,15 +2,18 @@
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Domain.Entities;
+using Ordem_Servico.Infra.Auth;
 
 namespace Ordem_Servico.Application.Services;
 
 public class ClienteService : IClienteService
 {
     private readonly OrdemServicoContext _dbcontext;
-    public ClienteService(OrdemServicoContext dbcontext)
+    private readonly IAuthService _authService;
+    public ClienteService(OrdemServicoContext dbcontext, IAuthService authService)
     {
         _dbcontext = dbcontext;
+        _authService = authService;
     }
     private Cliente GetByDbId(int id)
     {
@@ -21,7 +24,8 @@ public class ClienteService : IClienteService
         return _cliente;
     }
     public int Create(NewClienteInputModel cliente)
-    {
+    {  
+        cliente.Senha = _authService.ComputeSha256Hash(cliente.Senha);
         var _cliente = new Cliente
         {
             Nome = cliente.Nome,
@@ -29,7 +33,8 @@ public class ClienteService : IClienteService
             CNPJ = cliente.CNPJ,
             Telefone = cliente.Telefone,
             Email = cliente.Email,
-            Endereco = cliente.Endereco
+            Endereco = cliente.Endereco,
+            Senha = cliente.Senha
         };
         _dbcontext.Cliente.Add(_cliente);
 
@@ -82,7 +87,7 @@ public class ClienteService : IClienteService
     public void Update(int id, NewClienteInputModel cliente)
     {
         var _cliente = GetByDbId(id);
-
+        
         _cliente.Nome = cliente.Nome;
         _cliente.CPF = cliente.CPF;
         _cliente.CNPJ = cliente.CNPJ;
