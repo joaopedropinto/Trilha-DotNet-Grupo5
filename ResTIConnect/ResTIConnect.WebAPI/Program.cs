@@ -18,6 +18,7 @@ builder.Services.AddScoped<ISistemaService, SistemaService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
