@@ -17,6 +17,7 @@ class Program
             context.Peca.RemoveRange(context.Peca);
             context.Ocorrencia.RemoveRange(context.Ocorrencia);
             context.Equipamento.RemoveRange(context.Equipamento);
+            context.Usuario.RemoveRange(context.Usuario);
             context.SaveChanges();
             // Create
             var newCliente = new Cliente
@@ -314,6 +315,40 @@ class Program
                 context.Tecnico.Remove(tecnico);
                 context.SaveChanges();
                 Console.WriteLine("Técnico removido");
+            }
+
+            // Create
+            var newUsuario = new Usuario
+            {
+                Nome = "Nome do Usuário",
+                Email = "usuario@email.com",
+                Senha = "senha"
+            };
+
+            context.Usuario.Add(newUsuario);
+            context.SaveChanges();
+
+            // Read
+            var usuario = context.Usuario.FirstOrDefault(u => u.UsuarioID == newUsuario.UsuarioID);
+            if (usuario != null)
+            {
+                Console.WriteLine($"Usuário encontrado: {usuario.Nome}");
+            }
+
+            // Update
+            if (usuario != null)
+            {
+                usuario.Nome = "Novo Nome do Usuário";
+                context.SaveChanges();
+                Console.WriteLine($"Usuário atualizado: {usuario.Nome}");
+            }
+
+            // Delete
+            if (usuario != null)
+            {
+                context.Usuario.Remove(usuario);
+                context.SaveChanges();
+                Console.WriteLine("Usuário removido");
             }
         }
 
