@@ -17,6 +17,7 @@ builder.Services.AddScoped<IFinalizacaoService, FinalizacaoService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<IPecaService, PecaService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRelatorioService, RelatorioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
