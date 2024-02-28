@@ -5,6 +5,6 @@ using System.Threading.Tasks;
 
 public interface ILoginService
 {
-    Task<UsuarioViewModel?> Authenticate(NewLoginInputModel login);
+    Task<string?> AuthenticateAndGenerateToken(NewLoginInputModel login);
 }
 

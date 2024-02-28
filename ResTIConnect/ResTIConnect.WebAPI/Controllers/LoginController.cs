@@ -17,7 +17,7 @@ public class LoginController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] NewLoginInputModel login)
     {
-        var usuario = await _loginService.Authenticate(login);
+        var usuario = await _loginService.AuthenticateAndGenerateToken(login);
         if (usuario == null)
         {
             return Unauthorized();

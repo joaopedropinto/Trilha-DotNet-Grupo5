@@ -3,57 +3,34 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.ViewModels;
 using ResTIConnect.Infra.Context;
 using Microsoft.EntityFrameworkCore;
+using ResTIConnect.Infra.Auth;
 
 namespace ResTIConnect.Application.Services;
 public class LoginService : ILoginService
 {
     private readonly ResTIConnectContext _dbcontext;
+    private readonly IAuthService _authService; // Injete a interface IAuthService
 
-    public LoginService(ResTIConnectContext dbcontext)
+    public LoginService(ResTIConnectContext dbcontext, IAuthService authService)
     {
         _dbcontext = dbcontext;
+        _authService = authService;
     }
 
-    public async Task<UsuarioViewModel?> Authenticate(NewLoginInputModel login)
+    public async Task<string?> AuthenticateAndGenerateToken(NewLoginInputModel login)
     {
-        var _usuario = await _dbcontext.Usuarios
+        var usuario = await _dbcontext.Usuarios
             .Include(u => u.Endereco)
             .Include(u => u.Perfis)
-            .FirstOrDefaultAsync(u => u.Email == login.Email && u.Senha == login.Senha);
+            .FirstOrDefaultAsync(u => u.Email == login.Email && u.Senha == _authService.ComputeSha256Hash(login.Senha));
 
-        if (_usuario == null)
+        if (usuario == null)
         {
             return null;
         }
 
-        return new UsuarioViewModel
-        {
-            UsuarioId = _usuario.UsuarioId,
-            Nome = _usuario.Nome,
-            Apelido = _usuario.Apelido,
-            Email = _usuario.Email,
-            Telefone = _usuario.Telefone,
-            Endereco = new EnderecoViewModel
-            {
-                EnderecoId = _usuario.Endereco?.EnderecoId ?? 0,
-                Logradouro = _usuario.Endereco?.Logradouro,
-                Numero = _usuario.Endereco?.Numero ?? 0,
-                Cidade = _usuario.Endereco?.Cidade,
-                Complemento = _usuario.Endereco?.Complemento,
-                Bairro = _usuario.Endereco?.Bairro,
-                Estado = _usuario.Endereco?.Estado,
-                Cep = _usuario.Endereco?.Cep,
-                Pais = _usuario.Endereco?.Pais,
-                UsuarioId = _usuario.Endereco?.UsuarioId
-            },
-            Perfis = _usuario.Perfis?.Select(p => new PerfilViewModel
-            {
-                PerfilId = p.PerfilId,
-                Descricao = p.Descricao,
-                Permissoes = p.Permissoes,
-                UsuarioId = p.UsuarioId
-            }).ToList()
-        };
+        var token = _authService.GenerateJwtToken(usuario.Email, "user");
+
+        return token;
     }
 }
-
