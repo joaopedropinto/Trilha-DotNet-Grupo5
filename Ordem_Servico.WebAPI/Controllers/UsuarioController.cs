@@ -9,13 +9,12 @@ namespace Ordem_Servico.WebAPI.Controllers;
 public class UsuarioController : ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-    public List<UsuarioViewModel> Usuarios => _usuarioService.GetAll();
     public UsuarioController(IUsuarioService service) => _usuarioService = service;
 
     [HttpGet("usuarios")]
     public IActionResult Get()
     {
-        return Ok(Usuarios);
+        return Ok(_usuarioService.GetAll());
     }
 
     [HttpGet("usuario/{id}")]
