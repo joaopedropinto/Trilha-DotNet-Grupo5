@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ResTIConnect.Application.Services;
 using ResTIConnect.Application.Services.Interfaces;
@@ -34,6 +36,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication(); // Adiciona middleware de autenticação
+
+// Adicione o middleware de autorização para verificar as permissões
+app.UseMiddleware<AuthorizationMiddleware>();
 
 app.UseAuthorization();
 
