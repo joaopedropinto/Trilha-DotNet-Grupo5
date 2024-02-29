@@ -12,7 +12,7 @@ namespace Ordem_Servico.WebAPI.Controllers
         public LoginController(ILoginService service) => _loginService = service;
 
         [HttpPost("login")]
-        public IActionResult Post([FromBody] NewLoginInputModel login)
+        public async Task<IActionResult> Login([FromBody] NewLoginInputModel login)
         {
             var usuario = _loginService.Authenticate(login);
             if (usuario == null)
