@@ -1,32 +1,52 @@
-using Microsoft.EntityFrameworkCore;
 using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
+using Ordem_Servico.Domain.Entities;
+using Ordem_Servico.Infra.Auth;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Ordem_Servico.Application.Services;
-public class LoginService : ILoginService
+namespace Ordem_Servico.Application.Services
 {
-    private readonly OrdemServicoContext _dbContext;
-
-    public LoginService(OrdemServicoContext dbContext)
+    public class LoginService : ILoginService
     {
-        _dbContext = dbContext;
-    }
+        private readonly OrdemServicoContext _dbContext;
+        private readonly IAuthService _authService;
 
-    public async Task<UsuarioViewModel?> Authenticate(NewLoginInputModel login)
-    {
-        var usuario = await _dbContext.Usuario
-            .Where(u => u.Email == login.Email && u.Senha == login.Senha)
-            .Select(u => new UsuarioViewModel
+        public LoginService(OrdemServicoContext dbContext, IAuthService authService)
+        {
+            _dbContext = dbContext;
+            _authService = authService;
+        }
+
+        public async Task<ClienteViewModel?> Authenticate(NewLoginInputModel login)
+        {
+            var cliente = _dbContext.Cliente
+                .Where(c => c.Email == login.Email)
+                .FirstOrDefault();
+
+            if (cliente == null)
             {
-                UsuarioID = u.UsuarioID,
-                Nome = u.Nome,
-                Email = u.Email
-            })
-            .FirstOrDefaultAsync();
+                return null;
+            }
 
-        return usuario;
+            bool isPasswordValid = _authService.ComputeSha256Hash(login.Senha) == cliente.Senha;
+
+            if (!isPasswordValid)
+            {
+                return null;
+            }
+
+            return new ClienteViewModel
+            {
+                ClienteID = cliente.ClienteID,
+                Nome = cliente.Nome,
+                CPF = cliente.CPF,
+                CNPJ = cliente.CNPJ,
+                Telefone = cliente.Telefone,
+                Email = cliente.Email,
+                Endereco = cliente.Endereco
+            };
+        }
     }
-
 }
-
