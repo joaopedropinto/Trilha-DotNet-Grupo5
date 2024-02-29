@@ -37,7 +37,7 @@ namespace Ordem_Servico.Application.Services
                 return null;
             }
 
-            var token = _authService.GenerateJwtToken(cliente.Email, "user");
+            var token = _authService.GenerateJwtToken(cliente.Email, "Admin");
 
             return token;
         }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordem_Servico.Application.Services.Interfaces;
 
 namespace Ordem_Servico.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/0.1")]
+[Authorize]
 public class RelatorioController : ControllerBase
 {
     private readonly IRelatorioService _relatorioService;
