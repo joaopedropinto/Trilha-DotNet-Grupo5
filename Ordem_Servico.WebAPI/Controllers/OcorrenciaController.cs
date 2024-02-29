@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services;
 using Ordem_Servico.Application.Services.Interfaces;
@@ -7,6 +8,7 @@ namespace Ordem_Servico.WebAPI.Controllers;
 
 [ApiController]
 [Route("/api/v0.1/")]
+[Authorize]
 public class OcorrenciaController : ControllerBase
 {
     private readonly IOcorrenciaService _ocorrenciaService;

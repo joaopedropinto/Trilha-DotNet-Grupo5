@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.ViewModels;
@@ -7,6 +8,7 @@ namespace Ordem_Servico.WebAPI;
 
 [ApiController]
 [Route("/api/v0.1/")]
+[Authorize]
 public class OrdemServicoController : ControllerBase
 {
     private readonly IOrdemServicoService _ordemServicoService;

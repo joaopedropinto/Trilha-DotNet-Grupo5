@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ordem_Servico.WebAPI.Controllers;
 
 [ApiController]
 [Route("/api/v0.1/")]
+[Authorize]
 public class ClienteController : ControllerBase
 {
     private readonly IClienteService _clienteService;

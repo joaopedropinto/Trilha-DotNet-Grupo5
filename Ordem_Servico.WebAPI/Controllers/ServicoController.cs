@@ -2,11 +2,13 @@
 using Ordem_Servico.Application.ViewModels;
 using Ordem_Servico.Application.InputModels;
 using Ordem_Servico.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ordem_Servico.WebAPI.Controllers
 {
     [ApiController]
     [Route("/api/v0.1/")]
+    [Authorize]
     public class ServicoController : ControllerBase 
     {
         private readonly IServicoService _servicoService;
