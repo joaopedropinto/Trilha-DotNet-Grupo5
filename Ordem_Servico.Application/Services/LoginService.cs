@@ -19,7 +19,7 @@ namespace Ordem_Servico.Application.Services
             _authService = authService;
         }
 
-        public async Task<ClienteViewModel?> Authenticate(NewLoginInputModel login)
+        public async Task<string?> Authenticate(NewLoginInputModel login)
         {
             var cliente = _dbContext.Cliente
                 .Where(c => c.Email == login.Email)
@@ -37,16 +37,9 @@ namespace Ordem_Servico.Application.Services
                 return null;
             }
 
-            return new ClienteViewModel
-            {
-                ClienteID = cliente.ClienteID,
-                Nome = cliente.Nome,
-                CPF = cliente.CPF,
-                CNPJ = cliente.CNPJ,
-                Telefone = cliente.Telefone,
-                Email = cliente.Email,
-                Endereco = cliente.Endereco
-            };
+            var token = _authService.GenerateJwtToken(cliente.Email, "user");
+
+            return token;
         }
     }
 }

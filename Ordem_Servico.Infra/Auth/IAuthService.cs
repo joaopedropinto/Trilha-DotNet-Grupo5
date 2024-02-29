@@ -1,5 +1,6 @@
 namespace Ordem_Servico.Infra.Auth;
 public interface IAuthService
 {
-    string ComputeSha256Hash(string pass);
+    string GenerateJwtToken(string? email, string? role);
+    string ComputeSha256Hash(string? pass);
 }

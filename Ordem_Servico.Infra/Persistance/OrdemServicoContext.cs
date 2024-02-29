@@ -15,7 +15,7 @@ public class OrdemServicoContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        var connectionString = "server=localhost;user=root;password=tic2023;database=techadv";
+        var connectionString = "server=localhost;user=root;password=tic2023;database=ordemservicodb";
         var serverVersion = ServerVersion.AutoDetect(connectionString);
 
         optionsBuilder.UseMySql(connectionString, serverVersion);
