@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Ordem_Servico.Application.Services;
 using Ordem_Servico.Application.Services.Interfaces;
 using Ordem_Servico.Infra;
 using Ordem_Servico.Infra.Auth;
+using Ordem_Servico.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +87,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<AuthorizationMiddleware>();
 
 app.MapControllers();
 
