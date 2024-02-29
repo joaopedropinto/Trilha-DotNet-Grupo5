@@ -4,11 +4,12 @@ using ResTIConnect.Application.InputModels;
 using ResTIConnect.Application.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ResTIConnect.WebAPI.Controllers;
 [ApiController]
 [Route("/api/v0.1/")]
-
+[Authorize]
 public class SistemaController : ControllerBase
 {
     private readonly ISistemaService _sistemaService;
