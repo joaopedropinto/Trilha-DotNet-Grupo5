@@ -27,13 +27,6 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-/*   "Jwt":{
-    "Issuer": "TechMed",
-    "Audience": "MedicosPacientes",
-    "Key": "Esta é a chave secreta do TechMedKey"
-  } */
-// configurar swager pra inserir o token gerado pelo login
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "ResTIConnect.WebAPI", Version = "v1" });
@@ -77,9 +70,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? ""))
     };
 });
-
-
-
 
 var app = builder.Build();
 
