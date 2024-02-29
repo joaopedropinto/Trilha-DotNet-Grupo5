@@ -11,12 +11,11 @@ public class OrdemServicoContext : DbContext
     public DbSet<Servico> Servico { get; set; }
     public DbSet<Ocorrencia> Ocorrencia { get; set; }
     public DbSet<Peca> Peca { get; set; }
-    public DbSet<Usuario> Usuario { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        var connectionString = "server=localhost;user=dotnet;password=tic2023;database=techadv";
+        var connectionString = "server=localhost;user=root;password=tic2023;database=techadv";
         var serverVersion = ServerVersion.AutoDetect(connectionString);
 
         optionsBuilder.UseMySql(connectionString, serverVersion);
@@ -33,7 +32,6 @@ public class OrdemServicoContext : DbContext
         modelBuilder.Entity<Servico>().ToTable("Servico").HasKey(s => s.ServicoID);
         modelBuilder.Entity<Ocorrencia>().ToTable("Ocorrencia").HasKey(o => o.OcorrenciaID);
         modelBuilder.Entity<Peca>().ToTable("Peca").HasKey(p => p.PecaID);
-        modelBuilder.Entity<Usuario>().ToTable("Usuario").HasKey(u => u.UsuarioID);
 
         modelBuilder.Entity<OrdemServico>()
             .HasOne(os => os.Finalizacao)
